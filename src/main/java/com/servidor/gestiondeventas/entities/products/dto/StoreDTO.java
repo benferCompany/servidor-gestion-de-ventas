@@ -8,7 +8,8 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@Getter @Setter
+@Getter
+@Setter
 public class StoreDTO {
     private Long id;
     private CompanyDTO company;
@@ -19,17 +20,17 @@ public class StoreDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date last_modication;
 
-    public static StoreDTO fromEntity(Store store){
+    public static StoreDTO fromEntity(Store store) {
         StoreDTO dto = new StoreDTO();
-        if(store.getId() !=null){
+        if (store.getId() != null) {
             dto.setId(store.getId());
         }
         dto.setId(store.getId());
-        if(store.getCompany()!=null){
+        if (store.getCompany() != null) {
             dto.setCompany(CompanyDTO.fromEntity(store.getCompany()));
         }
         dto.setStock(store.getStock());
-        
+
         dto.setStock_max(store.getStock_max());
         dto.setStock_min(store.getStock_min());
         dto.setLast_modication(store.getLast_modication());

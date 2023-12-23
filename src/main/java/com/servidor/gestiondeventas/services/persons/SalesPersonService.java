@@ -8,8 +8,12 @@ import java.util.Optional;
 
 public interface SalesPersonService {
     public List<SalesPerson> getSalesPerson();
+
     public Optional<SalesPerson> getSalesPersonById(Long idSalesPerson);
+
     public SalesPerson createSalesPerson(SalesPerson salesPerson);
+
     public SalesPerson editSalesPerson(SalesPerson salesPerson);
+
     public boolean deleteSalesPerson(Long idSalesPerson);
 }

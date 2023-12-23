@@ -10,9 +10,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "com.servidor.gestiondeventas")
 public class GestionDeVentasApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GestionDeVentasApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GestionDeVentasApplication.class, args);
+    }
 
 }
 

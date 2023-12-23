@@ -13,6 +13,7 @@ import java.util.Optional;
 @Data
 public class PurchaseInvoiceServiceImpl implements PurchaseInvoiceService {
     PurchaseInvoiceRepository purchaseInvoiceRepository;
+
     @Override
     public List<PurchaseInvoice> getPurchaseInvoice() {
 
@@ -39,8 +40,8 @@ public class PurchaseInvoiceServiceImpl implements PurchaseInvoiceService {
 
     @Override
     public boolean deletePurchaseInvoice(Long idPurchaseInvoice) {
-        Optional<PurchaseInvoice> purchaseInvoice= purchaseInvoiceRepository.findById(idPurchaseInvoice);
-        if(purchaseInvoice.isPresent()){
+        Optional<PurchaseInvoice> purchaseInvoice = purchaseInvoiceRepository.findById(idPurchaseInvoice);
+        if (purchaseInvoice.isPresent()) {
             purchaseInvoiceRepository.deleteById(idPurchaseInvoice);
             return true;
         }

@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class StoreSupplierServiceImpl implements StoreSupplierService {
     private final StoreSupplierRepository storeSupplierRepository;
     private final EntityEditor<StoreSupplier> storeSupplierEditor;
-   
+
     private final ProductRepository productRepository;
     private final SupplierService supplierService;
     private final SupplierRepository supplierRepository;
@@ -52,13 +52,13 @@ public class StoreSupplierServiceImpl implements StoreSupplierService {
     @Override
     public StoreSupplier createStoreSupplier(StoreSupplier storeSupplier) {
         StoreSupplier newStoreSupplier = new StoreSupplier();
-        
+
         newStoreSupplier.setIdInternal(storeSupplier.getIdInternal());
         newStoreSupplier.setIdSupplierOne(storeSupplier.getIdSupplierOne());
         newStoreSupplier.setIdSupplierTwo(storeSupplier.getIdSupplierTwo());
         newStoreSupplier.setSupplier(storeSupplier.getSupplier());
         newStoreSupplier.setProducts(storeSupplier.getProducts());
-        
+
         return storeSupplierRepository.save(newStoreSupplier);
 
     }
@@ -72,11 +72,11 @@ public class StoreSupplierServiceImpl implements StoreSupplierService {
             if (product.isPresent()) {
                 products.add(product.get());
                 storeSupplier.setProducts(products);
-            }else{
+            } else {
                 return null;
             }
             supplierService.editSupplier(storeSupplier.getSupplier());
-            
+
             return storeSupplierRepository.save(storeSupplier);
         }
 

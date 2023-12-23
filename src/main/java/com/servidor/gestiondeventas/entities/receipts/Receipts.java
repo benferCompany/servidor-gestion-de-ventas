@@ -2,10 +2,10 @@ package com.servidor.gestiondeventas.entities.receipts;
 
 import com.servidor.gestiondeventas.entities.persons.Customer;
 import com.servidor.gestiondeventas.entities.persons.SalesPerson;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @MappedSuperclass
-public abstract  class Receipts {
+public abstract class Receipts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -15,29 +15,31 @@ import java.util.Optional;
 public class AdminController {
     @Autowired
     AdminService adminService;
+
     @GetMapping
-    public ResponseEntity<List<Admin>> getAdmin(){
+    public ResponseEntity<List<Admin>> getAdmin() {
         return new ResponseEntity<>(adminService.getAdmin(), HttpStatus.OK);
     }
 
     @GetMapping("/{idAdmin}")
-    public ResponseEntity<Optional<Admin>> getAdminById(@PathVariable Long idAdmin){
+    public ResponseEntity<Optional<Admin>> getAdminById(@PathVariable Long idAdmin) {
         return new ResponseEntity<>(adminService.getAdminById(idAdmin), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Admin> createAdmin(@RequestBody Admin admin){
+    public ResponseEntity<Admin> createAdmin(@RequestBody Admin admin) {
         return new ResponseEntity<>(adminService.createAdmin(admin), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Admin> editAdmin(@RequestBody Admin admin){
-        return new ResponseEntity<>(adminService.editAdmin(admin),HttpStatus.OK);
+    public ResponseEntity<Admin> editAdmin(@RequestBody Admin admin) {
+        return new ResponseEntity<>(adminService.editAdmin(admin), HttpStatus.OK);
     }
+
     @DeleteMapping
-    public String deleteAdmin(@PathVariable Long idAdmin){
+    public String deleteAdmin(@PathVariable Long idAdmin) {
         boolean booleanAdmin = adminService.deleteAdmin(idAdmin);
-        if(booleanAdmin){
+        if (booleanAdmin) {
             return "Se elimino el admin con éxito";
         }
         return "El id de este admin no existe";

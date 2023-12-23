@@ -15,29 +15,31 @@ import java.util.Optional;
 public class CustomerController {
     @Autowired
     CustomerService customerService;
+
     @GetMapping
-    public ResponseEntity<List<Customer>> getCustomer(){
+    public ResponseEntity<List<Customer>> getCustomer() {
         return new ResponseEntity<>(customerService.getCustomer(), HttpStatus.OK);
     }
 
     @GetMapping("/{idCustomer}")
-    public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable Long idCustomer){
+    public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable Long idCustomer) {
         return new ResponseEntity<>(customerService.getCustomerById(idCustomer), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         return new ResponseEntity<>(customerService.createCustomer(customer), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Customer> editCustomer(@RequestBody Customer customer){
-        return new ResponseEntity<>(customerService.editCustomer(customer),HttpStatus.OK);
+    public ResponseEntity<Customer> editCustomer(@RequestBody Customer customer) {
+        return new ResponseEntity<>(customerService.editCustomer(customer), HttpStatus.OK);
     }
+
     @DeleteMapping
-    public String deleteCustomer(@PathVariable Long idCustomer){
+    public String deleteCustomer(@PathVariable Long idCustomer) {
         boolean booleanCustomer = customerService.deleteCustomer(idCustomer);
-        if(booleanCustomer){
+        if (booleanCustomer) {
             return "Se elimino el cliente con éxito";
         }
         return "El id de este cliente no existe";

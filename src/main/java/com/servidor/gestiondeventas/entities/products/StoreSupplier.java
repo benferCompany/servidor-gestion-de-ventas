@@ -1,7 +1,7 @@
 package com.servidor.gestiondeventas.entities.products;
 
 import com.servidor.gestiondeventas.entities.persons.Supplier;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class StoreSupplier {

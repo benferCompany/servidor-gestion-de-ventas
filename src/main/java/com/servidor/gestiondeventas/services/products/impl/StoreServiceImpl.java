@@ -21,6 +21,7 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreRepository storeRepository;
     private final EntityEditor<Store> storeEditor;
+
     @Override
     public List<StoreDTO> getStore() {
 
@@ -57,7 +58,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public boolean deleteStore(Long idStore) {
         Optional<Store> store = storeRepository.findById(idStore);
-        if(store.isPresent()){
+        if (store.isPresent()) {
             storeRepository.deleteById(idStore);
             return true;
         }

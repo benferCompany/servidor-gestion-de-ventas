@@ -15,6 +15,7 @@ import java.util.Optional;
 @Service
 public class SupplierServiceImpl implements SupplierService {
     private SupplierRepository supplierRepository;
+
     @Override
     public List<Supplier> getSupplier() {
         return supplierRepository.findAll();

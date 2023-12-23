@@ -9,13 +9,14 @@ import com.servidor.gestiondeventas.services.products.ProductService;
 import com.servidor.gestiondeventas.services.products.StoreService;
 import com.servidor.gestiondeventas.services.products.StoreSupplierService;
 
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,18 +33,18 @@ public class ProductController {
     private EntityManager entityManager;
     @Autowired
     private FromProductEditDTO fromProductEditDTO;
-    
+
     final private StoreSupplierService storeSupplierService;
     final private StoreService storeService;
     final private StoreSupplierRepository storeSupplierRepository;
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getProduct(){
+    public ResponseEntity<List<ProductDTO>> getProduct() {
         return new ResponseEntity<>(productService.getProduct(), HttpStatus.OK);
     }
 
     @GetMapping("/{idProduct}")
-    public ResponseEntity<ProductDTO> getSupplierById(@PathVariable Long idProduct){
+    public ResponseEntity<ProductDTO> getSupplierById(@PathVariable Long idProduct) {
         return new ResponseEntity<>(ProductDTO.fromEntity(productService.getProductById(idProduct).get()), HttpStatus.OK);
     }
 
@@ -56,8 +57,6 @@ public class ProductController {
         for (Field field : fields) {
             columnNames.add(field.getName());
         }
-        
-
 
 
         return ResponseEntity.ok(columnNames);
@@ -66,27 +65,28 @@ public class ProductController {
 
 
     @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody Product product){
-        
-        return new ResponseEntity<>(ProductDTO.fromEntity(productService.createProduct(product)),HttpStatus.CREATED);
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody Product product) {
+
+        return new ResponseEntity<>(ProductDTO.fromEntity(productService.createProduct(product)), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<ProductDTO> editProduct(@RequestBody Product product){
-        return new ResponseEntity<>(productService.editProduct(product),HttpStatus.OK);
+    public ResponseEntity<ProductDTO> editProduct(@RequestBody Product product) {
+        return new ResponseEntity<>(productService.editProduct(product), HttpStatus.OK);
     }
+
     @DeleteMapping("/{idProduct}")
-    public String deleteProduct(@PathVariable Long idProduct){
+    public String deleteProduct(@PathVariable Long idProduct) {
         boolean booleanProduct = productService.deleteProduct(idProduct);
-        if(booleanProduct){
+        if (booleanProduct) {
             return "Se elimino el producto con éxito";
         }
         return "El id de este producto no existe";
     }
 
     @PostMapping("/name")
-    public ResponseEntity<List<ProductDTO>> getProductByName(@RequestBody Product product){
-        return new ResponseEntity<>(productService.getProductByName(product.getDescription()),HttpStatus.OK);
+    public ResponseEntity<List<ProductDTO>> getProductByName(@RequestBody Product product) {
+        return new ResponseEntity<>(productService.getProductByName(product.getDescription()), HttpStatus.OK);
     }
 
     @PostMapping("/importExcel")
@@ -96,8 +96,8 @@ public class ProductController {
     }
 
     @PostMapping("/updatePrice")
-    public ResponseEntity<Boolean> updatePrice(@RequestBody ProductEditExcelDto productPrice){
-        
-        return new ResponseEntity<>(productService.updatePrice(productPrice),HttpStatus.OK);
+    public ResponseEntity<Boolean> updatePrice(@RequestBody ProductEditExcelDto productPrice) {
+
+        return new ResponseEntity<>(productService.updatePrice(productPrice), HttpStatus.OK);
     }
 }

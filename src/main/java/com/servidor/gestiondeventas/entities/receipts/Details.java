@@ -1,8 +1,7 @@
 package com.servidor.gestiondeventas.entities.receipts;
 
 import com.servidor.gestiondeventas.entities.products.Product;
-import jakarta.persistence.*;
-import jakarta.persistence.Id;
+import javax.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class Details {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name ="purchase_invoice_id")
+    @JoinColumn(name = "purchase_invoice_id")
     private PurchaseInvoice purchaseInvoice;
 
     @ManyToMany

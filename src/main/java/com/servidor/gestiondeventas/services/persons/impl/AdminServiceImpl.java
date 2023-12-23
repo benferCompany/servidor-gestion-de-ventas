@@ -11,6 +11,7 @@ import java.util.Optional;
 @Service
 public class AdminServiceImpl implements AdminService {
     private AdminRepository adminRepository;
+
     @Override
     public List<Admin> getAdmin() {
         return adminRepository.findAll();

@@ -8,8 +8,12 @@ import java.util.Optional;
 
 public interface StoreSupplierService {
     public List<StoreSupplierDTO> getStoreSupplier();
+
     public Optional<StoreSupplier> getStoreSupplierById(Long idStoreSupplier);
+
     public StoreSupplier createStoreSupplier(StoreSupplier storeSupplier);
+
     public StoreSupplier editStoreSupplier(StoreSupplier storeSupplier);
+
     public boolean deleteStoreSupplier(Long idStoreSupplier);
 }

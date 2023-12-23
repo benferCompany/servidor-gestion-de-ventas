@@ -13,6 +13,7 @@ import java.util.Optional;
 @Data
 public class DetailsServiceImpl implements DetailsService {
     DetailsRepository detailsRepository;
+
     @Override
     public List<Details> getDetails() {
         return detailsRepository.findAll();
@@ -41,7 +42,7 @@ public class DetailsServiceImpl implements DetailsService {
     @Override
     public boolean deleteDetails(Long idDetails) {
         Optional<Details> details = detailsRepository.findById(idDetails);
-        if(details.isPresent()){
+        if (details.isPresent()) {
             detailsRepository.deleteById(idDetails);
             return true;
         }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/stores")
@@ -21,29 +22,31 @@ public class StoreController {
 
     @Autowired
     StoreService storeService;
+
     @GetMapping
-    public ResponseEntity<List<StoreDTO>> getStore(){
+    public ResponseEntity<List<StoreDTO>> getStore() {
         return new ResponseEntity<>(storeService.getStore(), HttpStatus.OK);
     }
 
     @GetMapping("/{idStore}")
-    public ResponseEntity<Optional<Store>> getSupplierById(@PathVariable Long idStore){
+    public ResponseEntity<Optional<Store>> getSupplierById(@PathVariable Long idStore) {
         return new ResponseEntity<>(storeService.getStoreById(idStore), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Store> createStore(@RequestBody Store store){
+    public ResponseEntity<Store> createStore(@RequestBody Store store) {
         return new ResponseEntity<>(storeService.createStore(store), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<StoreDTO> editStore(@RequestBody Store store){
-        return new ResponseEntity<>(storeService.editStore(store),HttpStatus.OK);
+    public ResponseEntity<StoreDTO> editStore(@RequestBody Store store) {
+        return new ResponseEntity<>(storeService.editStore(store), HttpStatus.OK);
     }
+
     @DeleteMapping
-    public String deleteStore(@PathVariable Long idStore){
+    public String deleteStore(@PathVariable Long idStore) {
         boolean booleanStore = storeService.deleteStore(idStore);
-        if(booleanStore){
+        if (booleanStore) {
             return "Se elimino el Almacen con éxito";
         }
         return "El id de este Almacen no existe";

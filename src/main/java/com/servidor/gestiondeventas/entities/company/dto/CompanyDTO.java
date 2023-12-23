@@ -9,7 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter @Setter
+@Getter
+@Setter
 public class CompanyDTO {
     private Long id;
     private String name;
@@ -19,7 +20,7 @@ public class CompanyDTO {
     private Date business_activity;
     private List<Long> storesId;
 
-    public static CompanyDTO fromEntity (Company company){
+    public static CompanyDTO fromEntity(Company company) {
         CompanyDTO dto = new CompanyDTO();
 
         dto.setId(company.getId());
@@ -28,7 +29,7 @@ public class CompanyDTO {
         dto.setCuit(company.getCuit());
         dto.setAddress(company.getAddress());
         dto.setBusiness_activity(company.getBusiness_activity());
-        if(dto.getStoresId()!=null){
+        if (dto.getStoresId() != null) {
             dto.setStoresId(company.getStores().stream()
                     .map(Store::getId).collect(Collectors.toList()));
         }

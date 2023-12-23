@@ -1,6 +1,6 @@
 package com.servidor.gestiondeventas.entities.persons;
 
-import jakarta.persistence.Entity;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 

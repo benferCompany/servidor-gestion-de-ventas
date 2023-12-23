@@ -13,6 +13,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SalesPersonServiceImpl implements SalesPersonService {
     private SalesPersonRepository salesPersonRepository;
+
     @Override
     public List<SalesPerson> getSalesPerson() {
         return salesPersonRepository.findAll();
