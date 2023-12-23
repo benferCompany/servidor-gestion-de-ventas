@@ -7,8 +7,12 @@ import java.util.Optional;
 
 public interface SupplierService {
     public List<Supplier> getSupplier();
+
     public Optional<Supplier> getSupplierById(Long idSupplier);
+
     public Supplier createSupplier(Supplier supplier);
+
     public Supplier editSupplier(Supplier supplier);
+
     public boolean deleteSupplier(Long idSupplier);
 }

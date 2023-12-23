@@ -17,29 +17,29 @@ public class DetailsController {
     DetailsService detailsService;
 
     @GetMapping
-    public ResponseEntity<List<Details>> getDetails(){
+    public ResponseEntity<List<Details>> getDetails() {
         return new ResponseEntity<>(detailsService.getDetails(), HttpStatus.OK);
     }
 
     @GetMapping("/{idDetails}")
-    public ResponseEntity<Optional<Details>> getDetailsById(@PathVariable Long idDetails){
-        return new ResponseEntity<>(detailsService.getDetailsById(idDetails),HttpStatus.OK);
+    public ResponseEntity<Optional<Details>> getDetailsById(@PathVariable Long idDetails) {
+        return new ResponseEntity<>(detailsService.getDetailsById(idDetails), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Details> createDetails(@RequestBody Details details){
+    public ResponseEntity<Details> createDetails(@RequestBody Details details) {
         return new ResponseEntity<>(detailsService.createDetails(details), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Details> editDetails(@RequestBody Details details){
-        return new ResponseEntity<>(detailsService.editDetails(details),HttpStatus.OK);
+    public ResponseEntity<Details> editDetails(@RequestBody Details details) {
+        return new ResponseEntity<>(detailsService.editDetails(details), HttpStatus.OK);
     }
 
     @DeleteMapping("/{idDetails}")
-    public String deleteDetails(@PathVariable Long idDetails){
+    public String deleteDetails(@PathVariable Long idDetails) {
         boolean booleanDetails = detailsService.deleteDetails(idDetails);
-        if(booleanDetails){
+        if (booleanDetails) {
             return "El detalle se elimino con éxito";
         }
         return "El detalle solicitado no existe";

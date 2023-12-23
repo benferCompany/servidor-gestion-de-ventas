@@ -1,6 +1,6 @@
 package com.servidor.gestiondeventas.entities.receipts;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 @Entity
@@ -9,12 +9,11 @@ import lombok.*;
 public class PurchaseInvoice extends Receipts {
     @Column
     private String type;
-    @OneToOne(mappedBy="purchaseInvoice")
+    @OneToOne(mappedBy = "purchaseInvoice")
     private DispatcheNote dispatchNote;
 
     @OneToOne(mappedBy = "purchaseInvoice")
     private Details details;
-
 
 
 }

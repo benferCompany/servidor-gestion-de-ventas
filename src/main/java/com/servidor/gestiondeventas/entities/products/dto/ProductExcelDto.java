@@ -20,22 +20,20 @@ public class ProductExcelDto {
     private String image;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yy;yy")
     private Date creation_date;
-    
+
     //Store
     private Long storeId;
     private double stock;
     private double stockMin;
     private double stockMax;
-    
+
     //StoreSupplier
     private Long storeSupplierId;
     private String idInternal;
     private String idSupplierOne;
     private String idSupplierTwo;
     private Long idSupplier;
-    
 
-    
 
 }
 

@@ -41,7 +41,7 @@ public class DispatcheNoteServiceImpl implements DispatcheNoteService {
     @Override
     public boolean deleteDispatcheNote(Long idDispatcheNote) {
         Optional<DispatcheNote> dispatcheNote = dispatcheNoteRepository.findById(idDispatcheNote);
-        if(dispatcheNote.isPresent()){
+        if (dispatcheNote.isPresent()) {
             dispatcheNoteRepository.deleteById(idDispatcheNote);
             return true;
         }

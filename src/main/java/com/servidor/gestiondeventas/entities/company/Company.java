@@ -2,7 +2,7 @@ package com.servidor.gestiondeventas.entities.company;
 
 
 import com.servidor.gestiondeventas.entities.products.Store;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

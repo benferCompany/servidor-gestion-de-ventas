@@ -21,20 +21,20 @@ public class StoreSupplierDTO {
     private Supplier supplier;
     private List<Long> idProduct = new ArrayList<>();
 
-    public static StoreSupplierDTO fromStoreSupplierDTO(StoreSupplier storeSupplier){
+    public static StoreSupplierDTO fromStoreSupplierDTO(StoreSupplier storeSupplier) {
         StoreSupplierDTO dto = new StoreSupplierDTO();
-        
+
         dto.setId(storeSupplier.getId());
         dto.setIdProduct(
-            storeSupplier.getProducts().stream()
-                .map(Product::getId)
-                    .collect(Collectors.toList()));
+                storeSupplier.getProducts().stream()
+                        .map(Product::getId)
+                        .collect(Collectors.toList()));
         dto.setSupplier(storeSupplier.getSupplier());
         dto.setIdInternal(storeSupplier.getIdInternal());
         dto.setIdSupplierOne(storeSupplier.getIdSupplierOne());
         dto.setIdSupplierTwo(storeSupplier.getIdSupplierTwo());
-    
-        
+
+
         return dto;
     }
 }

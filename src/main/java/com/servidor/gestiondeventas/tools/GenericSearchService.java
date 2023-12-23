@@ -1,12 +1,8 @@
 package com.servidor.gestiondeventas.tools;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Expression;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import javax.persistence.*;
+import javax.persistence.criteria.*;
+
 import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
@@ -19,16 +15,15 @@ public class GenericSearchService<T> {
     private final Class<T> entityClass;
 
 
-
     public List<T> getEntitiesBySearchTerms(String text, String... searchFields) {
         String[] searchTerms = text.split("\\s+");
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
         Root<T> root = criteriaQuery.from(entityClass);
-    
+
         List<Predicate> predicates = new ArrayList<>();
-    
+
         for (String searchTerm : searchTerms) {
             List<Predicate> fieldPredicates = new ArrayList<>();
             for (String searchField : searchFields) {
@@ -39,7 +34,7 @@ public class GenericSearchService<T> {
             predicates.add(criteriaBuilder.or(fieldPredicates.toArray(new Predicate[0])));
         }
         criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
-        
+
         TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery).setMaxResults(20);
 
         return typedQuery.getResultList();

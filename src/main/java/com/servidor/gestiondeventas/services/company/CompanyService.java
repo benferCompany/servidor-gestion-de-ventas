@@ -7,8 +7,12 @@ import java.util.Optional;
 
 public interface CompanyService {
     public List<Company> getCompany();
+
     public Optional<Company> getCompnayById(Long idCompany);
+
     public Company createCompany(Company company);
+
     public Company editCompany(Company company);
+
     public boolean deleteCompany(Long idCompany);
 }

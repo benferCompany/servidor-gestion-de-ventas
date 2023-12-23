@@ -17,27 +17,29 @@ public class DispatcheNoteController {
     DispatcheNoteService dispatcheNoteService;
 
     @GetMapping
-    public ResponseEntity<List<DispatcheNote>> getDispatcheNote(){
-        return new ResponseEntity<>(dispatcheNoteService.getDispatcheNote(),HttpStatus.OK);
+    public ResponseEntity<List<DispatcheNote>> getDispatcheNote() {
+        return new ResponseEntity<>(dispatcheNoteService.getDispatcheNote(), HttpStatus.OK);
     }
 
     @GetMapping("/{idDispatcheNote}")
-    public ResponseEntity<Optional<DispatcheNote>> getDispatcheNoteById(@PathVariable Long idDispatcheNote){
-        return new ResponseEntity<>(dispatcheNoteService.getDispatcheNoteById(idDispatcheNote),HttpStatus.OK);
+    public ResponseEntity<Optional<DispatcheNote>> getDispatcheNoteById(@PathVariable Long idDispatcheNote) {
+        return new ResponseEntity<>(dispatcheNoteService.getDispatcheNoteById(idDispatcheNote), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<DispatcheNote> createDispatcheNote(@RequestBody DispatcheNote dispatcheNote){
-        return new ResponseEntity<>(dispatcheNoteService.createDispatcheNote(dispatcheNote),HttpStatus.CREATED);
+    public ResponseEntity<DispatcheNote> createDispatcheNote(@RequestBody DispatcheNote dispatcheNote) {
+        return new ResponseEntity<>(dispatcheNoteService.createDispatcheNote(dispatcheNote), HttpStatus.CREATED);
     }
+
     @PutMapping
-    public ResponseEntity<DispatcheNote> editDispatcheNote(@RequestBody DispatcheNote dispatcheNote){
-        return new ResponseEntity<>(dispatcheNoteService.editDispatcheNote(dispatcheNote),HttpStatus.OK);
+    public ResponseEntity<DispatcheNote> editDispatcheNote(@RequestBody DispatcheNote dispatcheNote) {
+        return new ResponseEntity<>(dispatcheNoteService.editDispatcheNote(dispatcheNote), HttpStatus.OK);
     }
+
     @DeleteMapping("/{idDispatcheNote}")
-    public String deleteDispatcheNote(@PathVariable Long idDispatcheNote){
+    public String deleteDispatcheNote(@PathVariable Long idDispatcheNote) {
         boolean booleanDispatcheNote = dispatcheNoteService.deleteDispatcheNote(idDispatcheNote);
-        if(booleanDispatcheNote){
+        if (booleanDispatcheNote) {
             return "El Remito fue eliminado con éxito";
         }
         return "El remito no éxiste";

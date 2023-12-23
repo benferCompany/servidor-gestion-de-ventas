@@ -14,6 +14,7 @@ import java.util.Optional;
 public class CompanyServiceImpl implements CompanyService {
 
     private CompanyRepository companyRepository;
+
     @Override
     public List<Company> getCompany() {
         return companyRepository.findAll();

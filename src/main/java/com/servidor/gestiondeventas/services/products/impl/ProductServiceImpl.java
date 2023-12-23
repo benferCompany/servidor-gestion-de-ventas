@@ -13,7 +13,7 @@ import com.servidor.gestiondeventas.repository.persons.SupplierRepository;
 import com.servidor.gestiondeventas.repository.products.ProductRepository;
 import com.servidor.gestiondeventas.repository.products.StoreRepository;
 import com.servidor.gestiondeventas.services.products.ProductService;
-import jakarta.persistence.EntityManager;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -99,7 +99,7 @@ public class ProductServiceImpl implements ProductService {
             newStoreSupplier.setSupplier(supplier.orElse(null));
             productSave.getStoreSuppliers().add(storeSupplierRepository.save(newStoreSupplier));
         }
-        
+
         return productSave;
     }
 
@@ -163,8 +163,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> importExcel(List<Product> products){
-        for(Product product: products){
+    public List<ProductDTO> importExcel(List<Product> products) {
+        for (Product product : products) {
             createProduct(product);
         }
         return null;
@@ -172,10 +172,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean updatePrice(ProductEditExcelDto productPrice) {
-        
+
         List<StoreSupplier> storeSuppliers = storeSupplierRepository.selectByIdSupplierOne(productPrice.getIdSupplierOne());
-        for(StoreSupplier storeSupplier: storeSuppliers){
-            if(storeSupplier.getProducts().size()>0){
+        for (StoreSupplier storeSupplier : storeSuppliers) {
+            if (storeSupplier.getProducts().size() > 0) {
                 Product product = storeSupplier.getProducts().get(0);
                 product.setCost_price(productPrice.getCost_price());
                 product.setSelling_price(productPrice.getSelling_price());
@@ -183,7 +183,7 @@ public class ProductServiceImpl implements ProductService {
                 return true;
             }
         }
-        
-        return false;    
+
+        return false;
     }
 }

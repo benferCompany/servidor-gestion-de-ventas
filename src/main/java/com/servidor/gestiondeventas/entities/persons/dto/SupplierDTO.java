@@ -18,7 +18,7 @@ public class SupplierDTO {
     private String cuil;
     private String name_bussiness;
 
-    static public SupplierDTO fromSupplierDTO(Supplier supplier){
+    static public SupplierDTO fromSupplierDTO(Supplier supplier) {
         SupplierDTO dto = new SupplierDTO();
         dto.setId(supplier.getId());
         dto.setName(supplier.getName());

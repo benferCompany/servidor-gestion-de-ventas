@@ -17,29 +17,31 @@ import java.util.Optional;
 public class SupplierController {
     @Autowired
     SupplierService supplierService;
+
     @GetMapping
-    public ResponseEntity<List<Supplier>> getSupplier(){
+    public ResponseEntity<List<Supplier>> getSupplier() {
         return new ResponseEntity<>(supplierService.getSupplier(), HttpStatus.OK);
     }
 
     @GetMapping("/{idSupplier}")
-    public ResponseEntity<Optional<Supplier>> getSupplierById(@PathVariable Long idSupplier){
+    public ResponseEntity<Optional<Supplier>> getSupplierById(@PathVariable Long idSupplier) {
         return new ResponseEntity<>(supplierService.getSupplierById(idSupplier), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier){
+    public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier) {
         return new ResponseEntity<>(supplierService.createSupplier(supplier), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<SupplierDTO> editSupplier(@RequestBody Supplier supplier){
-        return new ResponseEntity<>(SupplierDTO.fromSupplierDTO(supplierService.editSupplier(supplier)),HttpStatus.OK);
+    public ResponseEntity<SupplierDTO> editSupplier(@RequestBody Supplier supplier) {
+        return new ResponseEntity<>(SupplierDTO.fromSupplierDTO(supplierService.editSupplier(supplier)), HttpStatus.OK);
     }
+
     @DeleteMapping
-    public String deleteSupplier(@PathVariable Long idSupplier){
+    public String deleteSupplier(@PathVariable Long idSupplier) {
         boolean booleanSupplier = supplierService.deleteSupplier(idSupplier);
-        if(booleanSupplier){
+        if (booleanSupplier) {
             return "Se elimino el vendedor con éxito";
         }
         return "El id de este vendedor no existe";

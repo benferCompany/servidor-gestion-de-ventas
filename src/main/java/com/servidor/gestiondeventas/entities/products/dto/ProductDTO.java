@@ -40,7 +40,7 @@ public class ProductDTO {
         }
         if (product.getStoreSuppliers() != null) {
             dto.setStoreSuppliers(product.getStoreSuppliers().stream()
-                    .map(StoreSupplierDTO :: fromStoreSupplierDTO)
+                    .map(StoreSupplierDTO::fromStoreSupplierDTO)
                     .collect(Collectors.toList()));
         }
         return dto;
