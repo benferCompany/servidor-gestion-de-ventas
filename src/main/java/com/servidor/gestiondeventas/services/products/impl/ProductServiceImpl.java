@@ -7,6 +7,7 @@ import com.servidor.gestiondeventas.entities.products.StoreSupplier;
 import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.ProductEditExcelDto;
 import com.servidor.gestiondeventas.repository.products.StoreSupplierRepository;
+import com.servidor.gestiondeventas.services.products.tools.ProductSearchResult;
 import com.servidor.gestiondeventas.tools.EntityEditor;
 import com.servidor.gestiondeventas.tools.GenericSearchService;
 import com.servidor.gestiondeventas.repository.persons.SupplierRepository;
@@ -18,14 +19,13 @@ import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,19 +44,13 @@ public class ProductServiceImpl implements ProductService {
     private final StoreSupplierServiceImpl storeSupplierServiceImpl;
 
     @Override
-    public List<ProductDTO> getProduct() {
+    public Page<ProductDTO> getProduct(Pageable pageable) {
+        // Obtener una página de entidades desde el repositorio
+        Page<Product> productPage = productRepository.findAll(pageable);
 
-        List<ProductDTO> productDTOs = new ArrayList<>();
+        // Convertir la página de entidades a una página de DTOs
 
-        Iterable<Product> products = productRepository.findAll(); // Obtener todas las entidades indexadas
-        for (Product product : products) {
-            // Convertir la entidad a DTO utilizando el método que tengas (por ejemplo,
-            // "frogemEntity")
-
-            productDTOs.add(ProductDTO.fromEntity(product));
-        }
-
-        return productDTOs;
+        return productPage.map(ProductDTO::fromEntity);
     }
 
     @Override
@@ -117,21 +111,19 @@ public class ProductServiceImpl implements ProductService {
             product2.setSelling_price(product.getSelling_price());
 
         }
-        for (Store store : storeRepository.findAll()) {
-            for (Store storep : product.getStores()) {
-                if (store.getId().equals(storep.getId())) {
-                    storeServiceImpl.editStore(storep);
-                }
-            }
-        }
+        product.getStores().stream()
+                .map(Store::getId)
+                .distinct()
+                .forEach(storeId -> storeRepository.findById(storeId)
+                        .ifPresent(storeServiceImpl::editStore));
 
-        for (StoreSupplier storeSupplier : storeSupplierRepository.findAll()) {
-            for (StoreSupplier storeSupplierP : product.getStoreSuppliers()) {
-                if (storeSupplier.getId().equals(storeSupplierP.getId())) {
-                    storeSupplierServiceImpl.editStoreSupplier(storeSupplierP);
-                }
-            }
-        }
+// Actualización de proveedores de tiendas
+        product.getStoreSuppliers().stream()
+                .map(StoreSupplier::getId)
+                .distinct()
+                .forEach(storeSupplierId -> storeSupplierRepository.findById(storeSupplierId)
+                        .ifPresent(storeSupplierServiceImpl::editStoreSupplier));
+
 
         return ProductDTO.fromEntity(productRepository.save(product2));
     }
@@ -152,14 +144,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getProductByName(String text) {
+    public ProductSearchResult getProductByName(String text, int page, int size) {
         GenericSearchService<Product> genericSearchService = new GenericSearchService<>(entityManager, Product.class);
 
-        List<Product> products = genericSearchService.getEntitiesBySearchTerms(text, "description");
-
-        return products.stream()
+        Map<String, Object> searchResult = genericSearchService.getEntitiesBySearchTerms(text, new String[]{"description"}, page, size);
+        List<Product> products = (List<Product>) searchResult.get("resultQuery");
+        System.out.println("\n----------------"+products.toString()+"\n-------------------");
+        Long totalElements = (Long) searchResult.get("totalElements");
+        List<ProductDTO> productDTOList = products.stream()
                 .map(ProductDTO::fromEntity)
                 .collect(Collectors.toList());
+        return new ProductSearchResult(productDTOList, totalElements);
     }
 
     @Override

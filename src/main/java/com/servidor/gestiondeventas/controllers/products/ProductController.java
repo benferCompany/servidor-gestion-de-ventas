@@ -10,9 +10,15 @@ import com.servidor.gestiondeventas.services.products.StoreService;
 import com.servidor.gestiondeventas.services.products.StoreSupplierService;
 
 import javax.persistence.EntityManager;
+
+import com.servidor.gestiondeventas.services.products.tools.ProductSearchResult;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +45,13 @@ public class ProductController {
     final private StoreSupplierRepository storeSupplierRepository;
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getProduct() {
-        return new ResponseEntity<>(productService.getProduct(), HttpStatus.OK);
+    public ResponseEntity<Page<ProductDTO>> getProduct(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        PageRequest pageable = PageRequest.of(page, size);
+        Page<ProductDTO> productPage = productService.getProduct(pageable);
+        return new ResponseEntity<>(productPage, HttpStatus.OK);
     }
 
     @GetMapping("/{idProduct}")
@@ -85,8 +96,17 @@ public class ProductController {
     }
 
     @PostMapping("/name")
-    public ResponseEntity<List<ProductDTO>> getProductByName(@RequestBody Product product) {
-        return new ResponseEntity<>(productService.getProductByName(product.getDescription()), HttpStatus.OK);
+    public ResponseEntity<Page<ProductDTO>> getProductByName(
+            @RequestBody Product product,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        ProductSearchResult searchResult = productService.getProductByName(product.getDescription(), page, size);
+
+        List<ProductDTO> productDTOList = searchResult.getProductDTOList();
+        Long totalElements = searchResult.getTotalElements();
+
+        return new ResponseEntity<>(new PageImpl<>(productDTOList, PageRequest.of(page, size), totalElements), HttpStatus.OK);
     }
 
     @PostMapping("/importExcel")

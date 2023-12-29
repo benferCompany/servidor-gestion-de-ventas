@@ -4,13 +4,16 @@ package com.servidor.gestiondeventas.services.products;
 import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.ProductEditExcelDto;
+import com.servidor.gestiondeventas.services.products.tools.ProductSearchResult;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
 
 public interface ProductService {
-    public List<ProductDTO> getProduct();
+    public Page<ProductDTO> getProduct(Pageable pageable);
 
     public Optional<Product> getProductById(Long idProduct);
 
@@ -20,7 +23,7 @@ public interface ProductService {
 
     public boolean deleteProduct(Long idProduct);
 
-    public List<ProductDTO> getProductByName(String text);
+    public ProductSearchResult getProductByName(String text, int page, int size);
 
     public List<ProductDTO> importExcel(List<Product> products);
 
