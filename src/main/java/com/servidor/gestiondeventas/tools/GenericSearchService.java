@@ -6,7 +6,9 @@ import javax.persistence.criteria.*;
 import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 public class GenericSearchService<T> {
@@ -14,8 +16,7 @@ public class GenericSearchService<T> {
     private final EntityManager entityManager;
     private final Class<T> entityClass;
 
-
-    public List<T> getEntitiesBySearchTerms(String text, String... searchFields) {
+    public Map<String, Object> getEntitiesBySearchTerms(String text, String[] searchFields, int page, int size) {
         String[] searchTerms = text.split("\\s+");
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -27,7 +28,6 @@ public class GenericSearchService<T> {
         for (String searchTerm : searchTerms) {
             List<Predicate> fieldPredicates = new ArrayList<>();
             for (String searchField : searchFields) {
-                // Convertir tanto el término de búsqueda como el valor del campo a minúsculas
                 Expression<String> fieldExpression = criteriaBuilder.lower(root.get(searchField));
                 fieldPredicates.add(criteriaBuilder.like(fieldExpression, "%" + searchTerm + "%"));
             }
@@ -35,8 +35,18 @@ public class GenericSearchService<T> {
         }
         criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
 
-        TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery).setMaxResults(20);
+        TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery)
+                .setFirstResult(page * size)
+                .setMaxResults(size);
+        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+        countQuery.select(criteriaBuilder.count(countQuery.from(entityClass)));
+        countQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
 
-        return typedQuery.getResultList();
+        Long totalElements = entityManager.createQuery(countQuery).getSingleResult();
+        System.out.println("\n----------------"+totalElements+"\n-------------------------");
+        Map<String, Object> result = new HashMap<>();
+        result.put("totalElements", totalElements);
+        result.put("resultQuery", typedQuery.getResultList());
+        return result;
     }
 }
