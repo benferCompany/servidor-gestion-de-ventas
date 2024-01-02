@@ -13,14 +13,6 @@ import java.util.Optional;
 
 @Repository
 public interface StoreSupplierRepository extends JpaRepository<StoreSupplier, Long> {
-    List<StoreSupplier> findByProductsContaining(Product product);
-
-    @Modifying
-    @Query(value = "DELETE FROM store_supplier_product WHERE product_id = :supplierId", nativeQuery = true)
-    void deleteBySupplierId(@Param("supplierId") Long supplierId);
-
-    @Query(value = "SELECT * FROM store_supplier WHERE id_internal = :supplierId", nativeQuery = true)
-    Optional<List<StoreSupplier>> selectBySupplierId(@Param("supplierId") String supplierId);
 
     @Query(value = "SELECT * FROM store_supplier WHERE id_supplier_one = :idSupplierOne", nativeQuery = true)
     List<StoreSupplier> selectByIdSupplierOne(@Param("idSupplierOne") String idSupplierOne);

@@ -29,7 +29,7 @@ public class GenericSearchService<T> {
             List<Predicate> fieldPredicates = new ArrayList<>();
             for (String searchField : searchFields) {
                 Expression<String> fieldExpression = criteriaBuilder.lower(root.get(searchField));
-                fieldPredicates.add(criteriaBuilder.like(fieldExpression, "%" + searchTerm + "%"));
+                fieldPredicates.add(criteriaBuilder.like(criteriaBuilder.lower(fieldExpression), "%" + searchTerm.toLowerCase() + "%"));
             }
             predicates.add(criteriaBuilder.or(fieldPredicates.toArray(new Predicate[0])));
         }
@@ -38,12 +38,13 @@ public class GenericSearchService<T> {
         TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery)
                 .setFirstResult(page * size)
                 .setMaxResults(size);
+
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
         countQuery.select(criteriaBuilder.count(countQuery.from(entityClass)));
         countQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
 
         Long totalElements = entityManager.createQuery(countQuery).getSingleResult();
-        System.out.println("\n----------------"+totalElements+"\n-------------------------");
+
         Map<String, Object> result = new HashMap<>();
         result.put("totalElements", totalElements);
         result.put("resultQuery", typedQuery.getResultList());

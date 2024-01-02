@@ -23,6 +23,9 @@ public class Product {
     private Long id;
 
     @Column
+    private String idInternal;
+
+    @Column
     private String title;
 
     @Column
@@ -30,6 +33,7 @@ public class Product {
 
     @Column
     private double cost_price;
+
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Store> stores = new ArrayList<>();
@@ -42,6 +46,6 @@ public class Product {
     @Column
     private Date creation_date;
 
-    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<StoreSupplier> storeSuppliers = new ArrayList<>();
 }
