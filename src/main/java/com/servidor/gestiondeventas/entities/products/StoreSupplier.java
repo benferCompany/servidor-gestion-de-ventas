@@ -2,26 +2,21 @@ package com.servidor.gestiondeventas.entities.products;
 
 import com.servidor.gestiondeventas.entities.persons.Supplier;
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class StoreSupplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column
-    String idInternal;
     @Column
     String idSupplierOne;
     @Column
@@ -30,11 +25,7 @@ public class StoreSupplier {
     @JoinColumn(name = "supplier_id")
     private Supplier Supplier;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "store_supplier_product",
-            joinColumns = @JoinColumn(name = "store_supplier_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

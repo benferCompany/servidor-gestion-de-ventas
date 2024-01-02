@@ -30,7 +30,7 @@ public class StoreDTO {
             dto.setCompany(CompanyDTO.fromEntity(store.getCompany()));
         }
         dto.setStock(store.getStock());
-
+        dto.setProductId(store.getProduct().getId());
         dto.setStock_max(store.getStock_max());
         dto.setStock_min(store.getStock_min());
         dto.setLast_modication(store.getLast_modication());
