@@ -48,7 +48,7 @@ public class StoreSupplierController {
         return new ResponseEntity<>(StoreSupplierDTO.fromStoreSupplierDTO(storeSupplierService.editStoreSupplier(storeSupplier)), HttpStatus.OK);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{idStoreSupplier}")
     public String deleteProduct(@PathVariable Long idStoreSupplier) {
         boolean booleanProduct = storeSupplierService.deleteStoreSupplier(idStoreSupplier);
         if (booleanProduct) {

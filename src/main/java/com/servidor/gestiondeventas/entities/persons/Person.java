@@ -11,6 +11,9 @@ public abstract class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
+    private String IdPersonal;
     @Column
     private String name;
     @Column
@@ -22,6 +25,6 @@ public abstract class Person {
     @Column
     private String phone;
     @Column
-    private String mobil_phone;
+    private String mobile_phone;
 
 }

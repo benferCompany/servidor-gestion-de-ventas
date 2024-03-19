@@ -1,9 +1,15 @@
 package com.servidor.gestiondeventas.controllers.persons;
 
+import com.servidor.gestiondeventas.entities.persons.Customer;
 import com.servidor.gestiondeventas.entities.persons.Supplier;
+import com.servidor.gestiondeventas.entities.persons.dto.CustomerDTO;
 import com.servidor.gestiondeventas.entities.persons.dto.SupplierDTO;
 import com.servidor.gestiondeventas.services.persons.SupplierService;
+import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,4 +52,20 @@ public class SupplierController {
         }
         return "El id de este vendedor no existe";
     }
+
+    @PostMapping("/name")
+    public ResponseEntity<Page<SupplierDTO>> getSupplierByName(
+            @RequestBody Supplier supplier,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size){
+
+        ItemSearchResult itemSearchResult = supplierService.getSupplierByName(supplier.getName(), page, size);
+
+        List<SupplierDTO> supplierDTOList = itemSearchResult.getResultList();
+        Long totalElements = itemSearchResult.getTotalElements();
+
+        return new ResponseEntity<>(new PageImpl<>(supplierDTOList, PageRequest.of(page, size), totalElements), HttpStatus.OK);
+    }
+
+
 }

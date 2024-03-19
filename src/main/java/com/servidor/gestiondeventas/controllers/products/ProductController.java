@@ -126,4 +126,8 @@ public class ProductController {
     public ResponseEntity<List<ProductDTO>> exportExcel(){
         return new ResponseEntity<>(productService.exportExcel(),HttpStatus.OK);
     }
+    @GetMapping("lastElement")
+    public ResponseEntity<Long> lastElement(){
+        return new ResponseEntity<>(productService.lastElement(),HttpStatus.OK);
+    }
 }

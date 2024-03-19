@@ -2,8 +2,13 @@ package com.servidor.gestiondeventas.controllers.company;
 
 import com.servidor.gestiondeventas.entities.company.Company;
 import com.servidor.gestiondeventas.entities.company.dto.CompanyDTO;
+import com.servidor.gestiondeventas.entities.persons.dto.SupplierDTO;
 import com.servidor.gestiondeventas.services.company.CompanyService;
+import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +45,7 @@ public class CompanyController {
     }
 
     @PutMapping
-    public ResponseEntity<Company> editCompany(@RequestBody Company company) {
+    public ResponseEntity<CompanyDTO> editCompany(@RequestBody Company company) {
         return new ResponseEntity<>(companyService.editCompany(company), HttpStatus.OK);
     }
 
@@ -52,5 +57,19 @@ public class CompanyController {
             return "La compañia fue eliminada";
         }
         return "Esa compañia no existe";
+    }
+    @PostMapping("/name")
+    public ResponseEntity<Page<CompanyDTO>> getCompanyByName(
+            @RequestBody Company company,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    )
+    {
+        ItemSearchResult itemSearchResult = companyService.getCompanyByName(company.getName(), page, size);
+
+        List<CompanyDTO> companyDTOList = itemSearchResult.getResultList();
+        Long totalElements = itemSearchResult.getTotalElements();
+
+        return new ResponseEntity<>(new PageImpl<>(companyDTOList, PageRequest.of(page, size), totalElements), HttpStatus.OK);
     }
 }

@@ -1,10 +1,14 @@
 package com.servidor.gestiondeventas.entities.company.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.servidor.gestiondeventas.entities.company.Company;
 import com.servidor.gestiondeventas.entities.products.Store;
+import com.servidor.gestiondeventas.entities.products.dto.StoreDTO;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,8 +21,10 @@ public class CompanyDTO {
     private String business_name;
     private String cuit;
     private String address;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date business_activity;
-    private List<Long> storesId;
+
 
     public static CompanyDTO fromEntity(Company company) {
         CompanyDTO dto = new CompanyDTO();
@@ -29,10 +35,6 @@ public class CompanyDTO {
         dto.setCuit(company.getCuit());
         dto.setAddress(company.getAddress());
         dto.setBusiness_activity(company.getBusiness_activity());
-        if (dto.getStoresId() != null) {
-            dto.setStoresId(company.getStores().stream()
-                    .map(Store::getId).collect(Collectors.toList()));
-        }
 
         return dto;
     }

@@ -30,4 +30,5 @@ public interface ProductService {
     public boolean updatePrice(ProductEditExcelDto productPrice);
 
     public List<ProductDTO> exportExcel();
+    public Long lastElement();
 }

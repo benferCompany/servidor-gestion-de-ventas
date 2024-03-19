@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Customer extends Person {
+    private String fiscal_status;
     private double current_account;
     private double discount;
 }

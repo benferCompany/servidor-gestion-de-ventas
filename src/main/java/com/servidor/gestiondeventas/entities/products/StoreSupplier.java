@@ -24,8 +24,7 @@ public class StoreSupplier {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "supplier_id")
     private Supplier Supplier;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "product_id")
     private Product product;
 }

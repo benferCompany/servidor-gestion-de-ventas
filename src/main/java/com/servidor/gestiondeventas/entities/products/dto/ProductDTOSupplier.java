@@ -20,21 +20,22 @@ public class ProductDTOSupplier {
     private List<StoreDTO> stores;
 
     public static ProductDTOSupplier fromFamily(Product product){
-        ProductDTOSupplier dto = new ProductDTOSupplier();
-        if (product.getId() != null) {
-            dto.setId(product.getId());
-        }
-        dto.setIdInternal(product.getIdInternal());
-        dto.setTitle(product.getTitle());
-        dto.setDescription(product.getDescription());
-        dto.setCost_price(product.getCost_price());
-        dto.setSelling_price(product.getSelling_price());
-        dto.setImage(product.getImage());
-        if (product.getStores() != null) {
-            dto.setStores(product.getStores().stream().map(StoreDTO::fromEntity).collect(Collectors.toList()));
-        }
-        return dto;
+        if(product!=null) {
+            ProductDTOSupplier dto = new ProductDTOSupplier();
 
+            dto.setId(product.getId());
+            dto.setIdInternal(product.getIdInternal());
+            dto.setTitle(product.getTitle());
+            dto.setDescription(product.getDescription());
+            dto.setCost_price(product.getCost_price());
+            dto.setSelling_price(product.getSelling_price());
+            dto.setImage(product.getImage());
+            if (product.getStores() != null) {
+                dto.setStores(product.getStores().stream().map(StoreDTO::fromEntity).collect(Collectors.toList()));
+            }
+            return dto;
+        }
+        return null;
     }
 
 

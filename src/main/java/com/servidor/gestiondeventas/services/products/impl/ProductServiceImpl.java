@@ -107,18 +107,27 @@ public class ProductServiceImpl implements ProductService {
             product2.setCreation_date(new Date());
             product2.setSelling_price(product.getSelling_price());
             product2.setIdInternal(product.getIdInternal());
-            product.getStores().stream()
-                    .map(Store::getId)
-                    .distinct()
-                    .forEach(storeId -> storeRepository.findById(storeId)
-                            .ifPresent(storeServiceImpl::editStore));
+            for(Store store : product.getStores()){
+                if(store.getId()>0){
+                    storeServiceImpl.editStore(store);
+                }else{
+                    product2.getStores().add(storeRepository.save(store));
+                }
+            }
 
 // Actualización de proveedores de tiendas
-            product.getStoreSuppliers().stream()
-                    .map(StoreSupplier::getId)
-                    .distinct()
-                    .forEach(storeSupplierId -> storeSupplierRepository.findById(storeSupplierId)
-                            .ifPresent(storeSupplierServiceImpl::editStoreSupplier));
+            for(StoreSupplier storeSupplier : product.getStoreSuppliers()){
+
+                if(storeSupplier.getId()>0){
+                    storeSupplierServiceImpl.editStoreSupplier(storeSupplier);
+                }else{
+                    product2.getStoreSuppliers().add(storeSupplierRepository.save(storeSupplier));
+
+                }
+
+
+            }
+
 
 
             return ProductDTO.fromEntity(productRepository.save(product2));
@@ -186,5 +195,11 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll().stream().map(
                 ProductDTO::fromEntity
         ).collect(Collectors.toList());
+    }
+
+    @Override
+    public Long lastElement(){
+        Product product = productRepository.findFirstByOrderByIdDesc();
+        return product.getId();
     }
 }

@@ -13,7 +13,6 @@ import lombok.Setter;
 @Setter
 public class Supplier extends Person {
 
-    private String cuil;
     private String name_bussiness;
 
 }

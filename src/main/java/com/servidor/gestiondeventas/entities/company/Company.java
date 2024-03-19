@@ -1,6 +1,7 @@
 package com.servidor.gestiondeventas.entities.company;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.servidor.gestiondeventas.entities.products.Store;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,9 +30,10 @@ public class Company {
     private String cuit;
     @Column
     private String address;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Column
     private Date business_activity;
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Store> stores;
 }

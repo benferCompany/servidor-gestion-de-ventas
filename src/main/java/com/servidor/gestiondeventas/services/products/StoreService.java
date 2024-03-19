@@ -2,6 +2,7 @@ package com.servidor.gestiondeventas.services.products;
 
 import com.servidor.gestiondeventas.entities.products.Store;
 import com.servidor.gestiondeventas.entities.products.dto.StoreDTO;
+import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,4 +17,6 @@ public interface StoreService {
     public StoreDTO editStore(Store store);
 
     public boolean deleteStore(Long idStore);
+
+    public ItemSearchResult getStoreByName(String text, int page, int size);
 }

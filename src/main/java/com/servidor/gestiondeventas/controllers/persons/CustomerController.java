@@ -34,7 +34,7 @@ public class CustomerController {
     public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable Long idCustomer) {
         return new ResponseEntity<>(customerService.getCustomerById(idCustomer), HttpStatus.OK);
     }
-
+    
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         return new ResponseEntity<>(customerService.createCustomer(customer), HttpStatus.CREATED);

@@ -27,4 +27,5 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     List<Product> searchByProductNameLike(@Param("likeQuery") String likeQuery);
 
     List<Product> findByDescription(String name);
+    Product findFirstByOrderByIdDesc();
 }
