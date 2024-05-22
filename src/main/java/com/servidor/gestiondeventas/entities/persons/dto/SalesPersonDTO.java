@@ -17,6 +17,7 @@ public class SalesPersonDTO {
     private String phone;
     private String mobile_phone;
     private String idPersonal;
+    private String img;
 
     static public SalesPersonDTO fromFamily(SalesPerson salesPerson){
         SalesPersonDTO salesPersonDTO = new SalesPersonDTO();
@@ -32,6 +33,7 @@ public class SalesPersonDTO {
         salesPersonDTO.setMobile_phone(salesPerson.getMobile_phone());
         salesPersonDTO.setShift(salesPerson.getShift());
         salesPersonDTO.setPhone(salesPerson.getPhone());
+        salesPersonDTO.setImg(salesPerson.getImg());
         return salesPersonDTO;
     }
 

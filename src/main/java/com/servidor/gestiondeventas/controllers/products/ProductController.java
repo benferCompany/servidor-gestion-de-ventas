@@ -11,6 +11,7 @@ import com.servidor.gestiondeventas.services.products.StoreSupplierService;
 import javax.persistence.EntityManager;
 
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
+import com.servidor.gestiondeventas.tools.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +81,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody Product product) {
 
-        return new ResponseEntity<>(ProductDTO.fromEntity(productService.createProduct(product)), HttpStatus.CREATED);
+        return new ResponseEntity<>(productService.createProduct(product), HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -130,4 +132,11 @@ public class ProductController {
     public ResponseEntity<Long> lastElement(){
         return new ResponseEntity<>(productService.lastElement(),HttpStatus.OK);
     }
+
+    @PostMapping("createOrUpdate")
+    public ResponseEntity<Message<ProductDTO>> createOrUpdate(@RequestBody Product product){
+
+        return new ResponseEntity<>(productService.createOrUpdate(product),HttpStatus.OK);
+    }
+
 }

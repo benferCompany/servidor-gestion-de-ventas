@@ -1,5 +1,6 @@
 package com.servidor.gestiondeventas.entities.receipts.dto;
 
+import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.receipts.DetailProduct;
 import lombok.Data;

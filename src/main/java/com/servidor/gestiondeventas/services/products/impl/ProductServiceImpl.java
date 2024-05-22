@@ -7,6 +7,8 @@ import com.servidor.gestiondeventas.entities.products.StoreSupplier;
 import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.ProductEditExcelDto;
 import com.servidor.gestiondeventas.repository.products.StoreSupplierRepository;
+import com.servidor.gestiondeventas.services.products.impl.StoreServiceImpl;
+import com.servidor.gestiondeventas.services.products.impl.StoreSupplierServiceImpl;
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
 import com.servidor.gestiondeventas.tools.EntityEditor;
 import com.servidor.gestiondeventas.tools.GenericSearchService;
@@ -16,6 +18,7 @@ import com.servidor.gestiondeventas.repository.products.StoreRepository;
 import com.servidor.gestiondeventas.services.products.ProductService;
 import javax.persistence.*;
 
+import com.servidor.gestiondeventas.tools.Message;
 import lombok.AllArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -212,19 +215,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO createOrUpdate(Product product){
+    public Message<ProductDTO> createOrUpdate(Product product){
             Product productResponse = productRepository.findFirstByIdInternal(product.getIdInternal());
+            String message;
+            String status;
+            ProductDTO productReturn;
             if(productResponse != null){
                 product.setId(productResponse.getId());
-
-               return editProduct(product);
+                message = "Producto actualizado con éxito";
+                status = "UPDATE";
+                productReturn = editProduct(product);
             }else{
-                return createProduct(product);
+                message = "Producto creado con éxito";
+                status ="CREATED";
+                productReturn = createProduct(product);
 
             }
 
-
-
+            return new Message<>(productReturn, message, status);
 
     }
 }

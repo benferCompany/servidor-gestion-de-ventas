@@ -6,6 +6,7 @@ import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.StoreDTO;
 import com.servidor.gestiondeventas.services.products.StoreService;
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
+import com.servidor.gestiondeventas.tools.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,5 +71,9 @@ public class StoreController {
         Long totalElements = itemSearchResult.getTotalElements();
 
         return new ResponseEntity<>(new PageImpl<>(storeDTOList, PageRequest.of(page, size), totalElements), HttpStatus.OK);
+    }
+    @PostMapping("/createOrUpdate")
+    public ResponseEntity<Message<StoreDTO>> createOrUpdate(@RequestBody Store store){
+        return new ResponseEntity<>(storeService.createOrUpdate(store),HttpStatus.OK);
     }
 }

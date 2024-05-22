@@ -30,6 +30,8 @@ public class Company {
     private String cuit;
     @Column
     private String address;
+    @Column
+    private String fiscal_status;
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Column

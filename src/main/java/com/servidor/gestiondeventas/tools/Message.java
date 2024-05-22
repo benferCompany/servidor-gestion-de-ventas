@@ -8,6 +8,7 @@ import lombok.Data;
 public class Message<T> {
  private T entity;
  private String message;
+ private String status;
 
 
 }
