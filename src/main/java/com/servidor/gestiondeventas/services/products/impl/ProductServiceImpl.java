@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product createProduct(Product product) {
+    public ProductDTO createProduct(Product product) {
         Product newProduct = new Product();
 
         newProduct.setTitle(product.getTitle());
@@ -68,29 +68,33 @@ public class ProductServiceImpl implements ProductService {
         newProduct.setImage(product.getImage());
         newProduct.setIdInternal(product.getIdInternal());
         Product productSave = productRepository.save(newProduct);
+        if(product.getStores() !=null){
+            for (Store store : product.getStores()) {
+                Store newStore = new Store();
+                newStore.setCompany(store.getCompany());
+                newStore.setStock(store.getStock());
+                newStore.setStock_max(store.getStock_max());
+                newStore.setStock_min(store.getStock_min());
+                newStore.setProduct(productSave);
+                productSave.getStores().add(storeRepository.save(newStore));
 
-        for (Store store : product.getStores()) {
-            Store newStore = new Store();
-            newStore.setCompany(store.getCompany());
-            newStore.setStock(store.getStock());
-            newStore.setStock_max(store.getStock_max());
-            newStore.setStock_min(store.getStock_min());
-            newStore.setProduct(productSave);
-            productSave.getStores().add(storeRepository.save(newStore));
+            }
+        }
+
+        if(product.getStoreSuppliers() !=null){
+            for (StoreSupplier storeSupplier : product.getStoreSuppliers()) {
+                StoreSupplier newStoreSupplier = new StoreSupplier();
+                Optional<Supplier> supplier = supplierRepository.findById(storeSupplier.getSupplier().getId());
+                newStoreSupplier.setIdSupplierOne(storeSupplier.getIdSupplierOne());
+                newStoreSupplier.setIdSupplierTwo(storeSupplier.getIdSupplierTwo());
+                newStoreSupplier.setProduct(productSave);
+                newStoreSupplier.setSupplier(supplier.orElse(null));
+                productSave.getStoreSuppliers().add(storeSupplierRepository.save(newStoreSupplier));
+            }
 
         }
 
-        for (StoreSupplier storeSupplier : product.getStoreSuppliers()) {
-            StoreSupplier newStoreSupplier = new StoreSupplier();
-            Optional<Supplier> supplier = supplierRepository.findById(storeSupplier.getSupplier().getId());
-            newStoreSupplier.setIdSupplierOne(storeSupplier.getIdSupplierOne());
-            newStoreSupplier.setIdSupplierTwo(storeSupplier.getIdSupplierTwo());
-            newStoreSupplier.setProduct(productSave);
-            newStoreSupplier.setSupplier(supplier.orElse(null));
-            productSave.getStoreSuppliers().add(storeSupplierRepository.save(newStoreSupplier));
-        }
-
-        return productSave;
+        return ProductDTO.fromEntity(productSave);
     }
 
     @Transactional
@@ -107,28 +111,32 @@ public class ProductServiceImpl implements ProductService {
             product2.setCreation_date(new Date());
             product2.setSelling_price(product.getSelling_price());
             product2.setIdInternal(product.getIdInternal());
-            for(Store store : product.getStores()){
-                if(store.getId()>0){
-                    storeServiceImpl.editStore(store);
-                }else{
-                    product2.getStores().add(storeRepository.save(store));
+
+            if(product.getStores() !=null){
+                for(Store store : product.getStores()){
+                    if(store.getId()>0){
+                        storeServiceImpl.editStore(store);
+                    }else{
+                        product2.getStores().add(storeRepository.save(store));
+                    }
                 }
             }
 
-// Actualización de proveedores de tiendas
-            for(StoreSupplier storeSupplier : product.getStoreSuppliers()){
+            // Actualización de proveedores de tiendas
 
-                if(storeSupplier.getId()>0){
-                    storeSupplierServiceImpl.editStoreSupplier(storeSupplier);
-                }else{
-                    product2.getStoreSuppliers().add(storeSupplierRepository.save(storeSupplier));
+            if(product.getStoreSuppliers() !=null){
+                for(StoreSupplier storeSupplier : product.getStoreSuppliers()){
+
+                    if(storeSupplier.getId()>0){
+                        storeSupplierServiceImpl.editStoreSupplier(storeSupplier);
+                    }else{
+                        product2.getStoreSuppliers().add(storeSupplierRepository.save(storeSupplier));
+
+                    }
+
 
                 }
-
-
             }
-
-
 
             return ProductDTO.fromEntity(productRepository.save(product2));
         }
@@ -201,5 +209,22 @@ public class ProductServiceImpl implements ProductService {
     public Long lastElement(){
         Product product = productRepository.findFirstByOrderByIdDesc();
         return product.getId();
+    }
+
+    @Override
+    public ProductDTO createOrUpdate(Product product){
+            Product productResponse = productRepository.findFirstByIdInternal(product.getIdInternal());
+            if(productResponse != null){
+                product.setId(productResponse.getId());
+
+               return editProduct(product);
+            }else{
+                return createProduct(product);
+
+            }
+
+
+
+
     }
 }
