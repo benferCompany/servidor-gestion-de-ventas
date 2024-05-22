@@ -16,7 +16,6 @@ import java.util.List;
 @Data
 @Getter
 @Setter
-//@JsonIgnoreProperties(value = {"id"}, ignoreUnknown = true)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

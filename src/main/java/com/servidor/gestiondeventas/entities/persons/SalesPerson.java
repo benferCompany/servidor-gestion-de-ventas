@@ -15,4 +15,5 @@ public class SalesPerson extends Person {
     private String shift;
     private String auth;
     private double commission;
+    private String img;
 }

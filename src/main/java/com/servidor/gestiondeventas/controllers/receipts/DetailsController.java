@@ -2,21 +2,28 @@ package com.servidor.gestiondeventas.controllers.receipts;
 
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.entities.receipts.dto.DetailsDto;
+import com.servidor.gestiondeventas.services.receipts.DetailProductService;
 import com.servidor.gestiondeventas.services.receipts.DetailsService;
+import com.servidor.gestiondeventas.tools.AFIP.generateTA.AfipLoginTicketGenerator;
+import lombok.AllArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/details")
 @CrossOrigin(origins = "*")
+@AllArgsConstructor
 public class DetailsController {
     @Autowired
     DetailsService detailsService;
+    DetailProductService detailProductService;
+    AfipLoginTicketGenerator afipLoginTicketGenerator;
 
     @GetMapping
     public ResponseEntity<List<DetailsDto>> getDetails() {
@@ -29,8 +36,11 @@ public class DetailsController {
     }
 
     @PostMapping
-    public ResponseEntity<Details> createDetails(@RequestBody Details details) {
-        return new ResponseEntity<>(detailsService.createDetails(details), HttpStatus.CREATED);
+    public ResponseEntity<DetailsDto> createDetails(@RequestBody Details details) {
+
+        Details newDetails = detailsService.createDetails(details);
+
+        return new ResponseEntity<>(DetailsDto.fromEntity(newDetails), HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -46,4 +56,6 @@ public class DetailsController {
         }
         return "El detalle solicitado no existe";
     }
+
+
 }

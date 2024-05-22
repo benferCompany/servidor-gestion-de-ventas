@@ -5,6 +5,7 @@ import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.ProductEditExcelDto;
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
+import com.servidor.gestiondeventas.tools.Message;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,7 +18,7 @@ public interface ProductService {
 
     public Optional<Product> getProductById(Long idProduct);
 
-    public Product createProduct(Product product);
+    public ProductDTO createProduct(Product product);
 
     public ProductDTO editProduct(Product product);
 
@@ -31,4 +32,6 @@ public interface ProductService {
 
     public List<ProductDTO> exportExcel();
     public Long lastElement();
+
+    public Message<ProductDTO> createOrUpdate(Product product);
 }

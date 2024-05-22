@@ -21,6 +21,7 @@ public class CompanyDTO {
     private String business_name;
     private String cuit;
     private String address;
+    private String fiscal_status;
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date business_activity;
@@ -35,6 +36,7 @@ public class CompanyDTO {
         dto.setCuit(company.getCuit());
         dto.setAddress(company.getAddress());
         dto.setBusiness_activity(company.getBusiness_activity());
+        dto.setFiscal_status(company.getFiscal_status());
 
         return dto;
     }

@@ -25,6 +25,9 @@ public class Details {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    private String paymentType;
+    private String fiscalStatus;
+
     @OneToMany(mappedBy = "details", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DetailProduct> detailProductList = new ArrayList<>();
 

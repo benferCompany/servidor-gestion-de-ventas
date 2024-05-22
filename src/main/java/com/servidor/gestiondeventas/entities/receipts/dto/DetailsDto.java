@@ -15,21 +15,25 @@ public class DetailsDto {
     private Long id;
     private SalesPersonDTO salesPerson;
     private CustomerDTO customer;
-    private List<DetailProductsDto> detailProductsList;
+    private String paymentType;
+    private String fiscalStatus;
+    private List<DetailProductsDto> detailProductList;
     private double total;
     static public DetailsDto fromEntity(Details details){
         DetailsDto detailsDto = new DetailsDto();
 
         detailsDto.setId(details.getId());
-        detailsDto.setDetailProductsList(details.getDetailProductList().stream()
+        detailsDto.setDetailProductList(details.getDetailProductList().stream()
                 .map(DetailProductsDto:: fromEntity)
                 .collect(Collectors.toList()));
-        double totalSum = detailsDto.getDetailProductsList().stream()
+        double totalSum = detailsDto.getDetailProductList().stream()
                 .mapToDouble(DetailProductsDto::getTotal) // Convierte cada DetailProduct a su valor total
                 .sum(); // Suma todos los valores totales
         detailsDto.setTotal(totalSum);
         detailsDto.setSalesPerson(SalesPersonDTO.fromFamily(details.getSalesPerson()));
         detailsDto.setCustomer(CustomerDTO.fromEntity(details.getCustomer()));
+        detailsDto.setPaymentType(details.getPaymentType());
+        detailsDto.setFiscalStatus(details.getFiscalStatus());
         return detailsDto;
     }
 }
