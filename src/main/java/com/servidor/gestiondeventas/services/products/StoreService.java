@@ -20,4 +20,5 @@ public interface StoreService {
 
     public ItemSearchResult getStoreByName(String text, int page, int size);
     public Message<StoreDTO> createOrUpdate(Store store);
+    public Double getValueStore();
 }

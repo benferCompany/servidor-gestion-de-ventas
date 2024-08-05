@@ -1,14 +1,17 @@
 package com.servidor.gestiondeventas.services.receipts.impl;
 
-import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.receipts.DetailProduct;
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.entities.receipts.dto.DetailsDto;
+import com.servidor.gestiondeventas.repository.expenses.closing.CashClosingRepository;
 import com.servidor.gestiondeventas.repository.receipts.DetailProductsRepository;
 import com.servidor.gestiondeventas.repository.receipts.DetailsRepository;
+import com.servidor.gestiondeventas.services.expenses.closing.CashClosingService;
 import com.servidor.gestiondeventas.services.persons.CustomerService;
 import com.servidor.gestiondeventas.services.persons.SalesPersonService;
 import com.servidor.gestiondeventas.services.products.ProductService;
+import com.servidor.gestiondeventas.services.receipts.AFIP.FECAE.SolicitarService;
+import com.servidor.gestiondeventas.services.receipts.AFIP.tools.ToolsAFIP;
 import com.servidor.gestiondeventas.services.receipts.DetailProductService;
 import com.servidor.gestiondeventas.services.receipts.DetailsService;
 import lombok.AllArgsConstructor;
@@ -16,6 +19,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +37,9 @@ public class DetailsServiceImpl implements DetailsService {
     private final ProductService productService;
     private final DetailProductsRepository detailProductsRepository;
     private final DetailProductService detailProductService;
+    private final SolicitarService solicitarService;
+    private final ToolsAFIP toolsAFIP;
+    private final CashClosingService closingService;
 
     @Override
     public List<DetailsDto> getDetails() {
@@ -50,19 +57,24 @@ public class DetailsServiceImpl implements DetailsService {
     }
 
     @Override
-    public Details createDetails(Details details) {
+    public Details createDetails(Details details) throws IOException {
         Details newDetails = new Details();
-
+        newDetails.setCae(details.getCae());
+        newDetails.setCaeFchVto(details.getCaeFchVto());
+        newDetails.setNumberInvoice(details.getNumberInvoice());
         newDetails.setPaymentType(details.getPaymentType());
         newDetails.setDate(new Date());
         newDetails.setCustomer(details.getCustomer());
         newDetails.setFiscalStatus(details.getFiscalStatus());
         newDetails.setSalesPerson(details.getSalesPerson());
-        newDetails.setDetailProductList(details.getDetailProductList());
+        newDetails.setCompany(details.getCompany());
+        newDetails.setTotal(details.getTotal());
+        newDetails.setCostTotal(details.getCostTotal());
+        return detailsRepository.save(detailProductService.createDetailProduct(details));
 
-        Details returnDetails = detailsRepository.save(newDetails);
-        detailProductService.createDetailProduct(returnDetails);
-        return returnDetails;
+
+
+
     }
 
 
@@ -85,5 +97,10 @@ public class DetailsServiceImpl implements DetailsService {
             return true;
         }
         return false;
+    }
+    @Override
+    public List<Details> getDetailsDateAfter(){
+
+        return detailsRepository.findByDateAfter(closingService.getDateCashClosing());
     }
 }

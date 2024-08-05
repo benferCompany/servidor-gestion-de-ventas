@@ -2,6 +2,7 @@ package com.servidor.gestiondeventas.controllers.receipts;
 
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.entities.receipts.dto.DetailsDto;
+import com.servidor.gestiondeventas.services.receipts.AFIP.FECAE.SolicitarService;
 import com.servidor.gestiondeventas.services.receipts.DetailProductService;
 import com.servidor.gestiondeventas.services.receipts.DetailsService;
 import com.servidor.gestiondeventas.tools.AFIP.generateTA.AfipLoginTicketGenerator;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -36,7 +38,7 @@ public class DetailsController {
     }
 
     @PostMapping
-    public ResponseEntity<DetailsDto> createDetails(@RequestBody Details details) {
+    public ResponseEntity<DetailsDto> createDetails(@RequestBody Details details) throws IOException {
 
         Details newDetails = detailsService.createDetails(details);
 

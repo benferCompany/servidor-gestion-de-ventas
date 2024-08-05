@@ -14,8 +14,6 @@ import java.util.List;
 
 @Entity
 @Data
-@Getter
-@Setter
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +32,7 @@ public class Product {
     private double cost_price;
 
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Store> stores = new ArrayList<>();
     @Column
     private double selling_price;

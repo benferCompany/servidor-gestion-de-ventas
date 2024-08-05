@@ -6,7 +6,9 @@ import com.servidor.gestiondeventas.entities.products.Store;
 import com.servidor.gestiondeventas.entities.products.StoreSupplier;
 import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.ProductEditExcelDto;
+import com.servidor.gestiondeventas.repository.balance.CapitalRepository;
 import com.servidor.gestiondeventas.repository.products.StoreSupplierRepository;
+import com.servidor.gestiondeventas.services.balance.CapitalService;
 import com.servidor.gestiondeventas.services.products.impl.StoreServiceImpl;
 import com.servidor.gestiondeventas.services.products.impl.StoreSupplierServiceImpl;
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
@@ -43,6 +45,7 @@ public class ProductServiceImpl implements ProductService {
     private final StoreRepository storeRepository;
     private final StoreServiceImpl storeServiceImpl;
     private final StoreSupplierServiceImpl storeSupplierServiceImpl;
+    private final CapitalService capitalService;
 
     @Override
     public Page<ProductDTO> getProduct(Pageable pageable) {
@@ -82,6 +85,8 @@ public class ProductServiceImpl implements ProductService {
                 productSave.getStores().add(storeRepository.save(newStore));
 
             }
+            Double total = product.getStores().get(0).getStock()*product.getCost_price();
+            capitalService.capitalSumStock(total);
         }
 
         if(product.getStoreSuppliers() !=null){
