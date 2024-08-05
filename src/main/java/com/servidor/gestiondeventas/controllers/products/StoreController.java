@@ -76,4 +76,13 @@ public class StoreController {
     public ResponseEntity<Message<StoreDTO>> createOrUpdate(@RequestBody Store store){
         return new ResponseEntity<>(storeService.createOrUpdate(store),HttpStatus.OK);
     }
+
+    @GetMapping("/valueStore")
+    public Double getValueStore(){
+        if(storeService.getValueStore()!=null){
+            return storeService.getValueStore();
+        }
+        return 0.0;
+
+    }
 }

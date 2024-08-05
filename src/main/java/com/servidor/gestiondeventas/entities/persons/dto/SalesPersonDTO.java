@@ -21,7 +21,9 @@ public class SalesPersonDTO {
 
     static public SalesPersonDTO fromFamily(SalesPerson salesPerson){
         SalesPersonDTO salesPersonDTO = new SalesPersonDTO();
-
+        if(salesPerson == null){
+            return null;
+        }
         salesPersonDTO.setIdPersonal(salesPerson.getIdPersonal());
         salesPersonDTO.setId(salesPerson.getId());
         salesPersonDTO.setAuth(salesPerson.getAuth());

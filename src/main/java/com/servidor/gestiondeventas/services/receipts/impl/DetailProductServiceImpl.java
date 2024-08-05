@@ -11,23 +11,34 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class DetailProductServiceImpl implements DetailProductService {
     private final DetailProductsRepository detailProductsRepository;
     private final ProductRepository productRepository;
+
     @Override
     public Details createDetailProduct(Details details) {
-        List<DetailProduct> detailsProducts = new ArrayList<>();
+        List<DetailProduct> detailProducts = new ArrayList<>();
         for(DetailProduct detailProduct : details.getDetailProductList()){
-            Product product = productRepository.getById(detailProduct.getProduct().getId());
-            detailProduct.setDetails(details);
-            detailProduct.setProduct(product);
-            detailsProducts.add(detailProduct);
-            detailProductsRepository.save(detailProduct);
+         Product product = productRepository.getById(detailProduct.getProductId());
+         detailProduct.setDetails(details);
+         detailProduct.setInternalCode(product.getIdInternal());
+         detailProduct.setDescription(product.getDescription());
+
+         detailProduct.setPrice(product.getSelling_price());
+         detailProduct.setCostPrice(product.getCost_price());
+         detailProduct.setTotalPrice(product.getSelling_price()*detailProduct.getQuality());
+         detailProduct.setTotalCostPrice(product.getCost_price()*detailProduct.getQuality());
+
+         detailProducts.add(detailProduct);
+         //Descuento de Stock
+            product.getStores().get(0).setStock(product.getStores().get(0).getStock()-detailProduct.getQuality());
+
         }
-        details.setDetailProductList(detailsProducts);
+        details.setDetailProductList(detailProducts);
         return details;
     }
 }

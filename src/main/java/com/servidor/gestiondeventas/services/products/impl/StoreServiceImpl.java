@@ -131,4 +131,12 @@ public class StoreServiceImpl implements StoreService{
         }
         return new Message<>(storeDTO, message, status);
     }
+
+    @Override
+    public Double getValueStore() {
+        return storeRepository.findByCompanyId(1L).stream().mapToDouble(store->{
+            return store.getStock() * store.getProduct().getCost_price();
+        }).sum();
+
+    }
 }
