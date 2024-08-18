@@ -7,6 +7,7 @@ import com.servidor.gestiondeventas.services.products.CategoriesService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class CategoriesServiceImpl implements CategoriesService {
     private final CategoriesRepository categoriesRepository;
     @Override
+    @Transactional
     public List<CategoriesDTO> getCategories() {
 
         return categoriesRepository.findAll().stream()
