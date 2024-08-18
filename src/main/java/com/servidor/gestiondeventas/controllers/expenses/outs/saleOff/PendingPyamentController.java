@@ -4,10 +4,12 @@ import com.servidor.gestiondeventas.entities.expenses.outs.saleOff.pendingPaymen
 import com.servidor.gestiondeventas.entities.expenses.outs.saleOff.pendingPayments.dto.PendingPaymentsDTO;
 import com.servidor.gestiondeventas.services.expenses.outs.saleOff.PendingPaymentsService;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -21,6 +23,14 @@ public class PendingPyamentController {
         return new ResponseEntity<>(pendingPaymentsService.getPendingPayments(), HttpStatus.OK) ;
     }
 
+    @GetMapping("/search")
+    public List<PendingPaymentsDTO> searchByDescriptionAndDate(
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+            @RequestParam("description") String description) {
+
+        return null;
+    }
     @PostMapping
     public ResponseEntity<PendingPaymentsDTO> createPendingMayments(@RequestBody  PendingPayments pendingPayments){
 

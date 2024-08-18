@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface PendingPaymentRepository extends JpaRepository<PendingPayments,Long> {
     List<PendingPayments> findByDateAfter(Date date);
+    List<PendingPayments>findByDateBetweenAndDescriptionContaining(Date startDate, Date endDate, String description);
 }
