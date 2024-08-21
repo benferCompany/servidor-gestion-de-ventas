@@ -26,8 +26,8 @@ import java.util.Optional;
 @Data
 @RequestMapping("/customer")
 public class CustomerController {
-    @Autowired
-    CustomerService customerService;
+
+    private final CustomerService customerService;
 
     @GetMapping
     public ResponseEntity<List<Customer>> getCustomer() {
