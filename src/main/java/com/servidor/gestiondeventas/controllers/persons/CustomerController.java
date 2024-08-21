@@ -1,9 +1,7 @@
 package com.servidor.gestiondeventas.controllers.persons;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseToken;
-import com.google.firebase.auth.UserRecord;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.*;
 import com.servidor.gestiondeventas.entities.persons.Customer;
 import com.servidor.gestiondeventas.entities.persons.dto.CustomerDTO;
 import com.servidor.gestiondeventas.services.persons.CustomerService;
@@ -72,19 +70,13 @@ public class CustomerController {
     }
 
     @GetMapping("/token")
-    public FirebaseToken getToken(@RequestHeader(value="Authorization") String authorizationHeader) throws FirebaseAuthException {
-        String token = authorizationHeader.replace("Bearer ", "");
-        return FirebaseAuth.getInstance().verifyIdToken(token);
+    public ResponseEntity<Customer> getToken(@RequestHeader(value="Authorization") String authorizationHeader) throws FirebaseAuthException {
+        return new ResponseEntity<>(customerService.getToken(authorizationHeader),HttpStatus.OK);
     }
 
     @PostMapping("/createUser")
-    public UserRecord createUser (@RequestBody Customer customer) throws FirebaseAuthException {
-        UserRecord.CreateRequest request = new UserRecord.CreateRequest()
-
-                .setEmail(customer.getEmail())
-                .setPassword("benfer");
-
-        return FirebaseAuth.getInstance().createUser(request);
-
+    public ResponseEntity<UserRecord> createUser (@RequestBody Customer customer) throws FirebaseAuthException {
+       return new ResponseEntity<>(customerService.createUser(customer),HttpStatus.CREATED);
     }
+
 }

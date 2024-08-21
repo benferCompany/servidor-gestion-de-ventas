@@ -1,5 +1,9 @@
 package com.servidor.gestiondeventas.services.persons.impl;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
+import com.google.firebase.auth.UserRecord;
 import com.servidor.gestiondeventas.entities.persons.Customer;
 import com.servidor.gestiondeventas.entities.persons.dto.CustomerDTO;
 import com.servidor.gestiondeventas.entities.products.Product;
@@ -72,5 +76,29 @@ public class CustomerServiceImpl implements CustomerService {
                 .map(CustomerDTO::fromEntity)
                 .collect(Collectors.toList());
         return new ItemSearchResult<>(productDTOList, totalElements);
+    }
+
+    @Override
+    public Customer getToken(String authorizationHeader) throws FirebaseAuthException {
+        String token = authorizationHeader.replace("Bearer ", "");
+        FirebaseToken user = FirebaseAuth.getInstance().verifyIdToken(token);
+        if(user.isEmailVerified()){
+            return customerRepository.findByEmail(user.getEmail()).orElseGet(()->{
+                Customer cus = new Customer();
+                cus.setEmail(user.getEmail());
+                return customerRepository.save(cus);
+            });
+
+        }
+      return null;
+    }
+
+    @Override
+    public UserRecord createUser(Customer customer) throws FirebaseAuthException {
+        UserRecord.CreateRequest request = new UserRecord.CreateRequest()
+                .setEmail(customer.getEmail())
+                .setPassword("benfer");
+        return FirebaseAuth.getInstance().createUser(request);
+
     }
 }
