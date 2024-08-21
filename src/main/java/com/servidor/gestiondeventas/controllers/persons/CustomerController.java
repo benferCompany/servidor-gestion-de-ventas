@@ -10,7 +10,6 @@ import com.servidor.gestiondeventas.services.persons.CustomerService;
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -85,7 +84,7 @@ public class CustomerController {
                 .setEmail(customer.getEmail())
                 .setPassword("benfer");
 
-        UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
-        return userRecord;
+        return FirebaseAuth.getInstance().createUser(request);
+
     }
 }
