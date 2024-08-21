@@ -1,5 +1,10 @@
 package com.servidor.gestiondeventas.controllers.products;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
+import com.google.firebase.auth.UserRecord;
+import com.servidor.gestiondeventas.entities.persons.Customer;
 import com.servidor.gestiondeventas.entities.products.Categories;
 import com.servidor.gestiondeventas.entities.products.dto.CategoriesDTO;
 import com.servidor.gestiondeventas.services.products.CategoriesService;
@@ -35,4 +40,6 @@ public class CategoriesController {
     public boolean deleteCategory(@PathVariable Long id){
         return categoriesService.deleteCategory(id);
     }
+
+
 }
