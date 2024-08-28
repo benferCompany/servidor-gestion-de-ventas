@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/comprobante")
+@RequestMapping("/api/comprobante")
 @CrossOrigin(value = "*")
 @AllArgsConstructor
 public class UltimoAutorizadoController {

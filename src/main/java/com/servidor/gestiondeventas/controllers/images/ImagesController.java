@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/images")
+@RequestMapping("/api/images")
 @CrossOrigin(origins = "*")
 public class ImagesController {
     @Autowired

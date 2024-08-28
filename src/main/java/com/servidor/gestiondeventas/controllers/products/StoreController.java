@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/stores")
+@RequestMapping("/api/stores")
 @Data
 @AllArgsConstructor
 public class StoreController {

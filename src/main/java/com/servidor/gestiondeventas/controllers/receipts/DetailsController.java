@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/details")
+@RequestMapping("/api/details")
 @CrossOrigin(origins = "*")
 @AllArgsConstructor
 public class DetailsController {

@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/getCAE")
+@RequestMapping("/api/getCAE")
 @CrossOrigin(value = "*")
 public class SolicitarController {
     private final SolicitarService solicitarService;

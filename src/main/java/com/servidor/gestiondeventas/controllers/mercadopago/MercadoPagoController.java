@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
-@RequestMapping("/mercadoPago")
+@RequestMapping("/api/mercadoPago")
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class MercadoPagoController {

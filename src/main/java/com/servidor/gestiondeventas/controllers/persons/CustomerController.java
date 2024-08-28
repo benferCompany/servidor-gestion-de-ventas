@@ -21,7 +21,7 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 @Data
-@RequestMapping("/customer")
+@RequestMapping("/api/customer")
 public class CustomerController {
 
     private final CustomerService customerService;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("outflows")
+@RequestMapping("/api/outflows")
 @CrossOrigin(origins = "*")
 @AllArgsConstructor
 public class OutFlowsController {

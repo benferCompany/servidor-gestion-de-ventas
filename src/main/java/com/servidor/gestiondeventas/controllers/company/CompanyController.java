@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/api/company")
 @CrossOrigin(origins = "*")
 public class CompanyController {
     @Autowired

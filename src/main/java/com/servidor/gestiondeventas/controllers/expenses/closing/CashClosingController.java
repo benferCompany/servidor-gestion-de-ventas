@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/closing")
+@RequestMapping("/api/closing")
 @CrossOrigin(origins = "*")
 @AllArgsConstructor
 public class CashClosingController {

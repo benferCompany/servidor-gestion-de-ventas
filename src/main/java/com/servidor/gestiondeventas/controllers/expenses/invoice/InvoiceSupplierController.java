@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/invoiceSupplier")
+@RequestMapping("/api/invoiceSupplier")
 @CrossOrigin(origins = "*")
 @AllArgsConstructor
 public class InvoiceSupplierController {
