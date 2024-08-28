@@ -16,7 +16,6 @@ public class CategoriesDTO {
     private String name;
     private Categories parentCategory;
     private List<Categories> subCategories = new ArrayList<>();
-    private List<ProductDTO> products = new ArrayList<>();
 
     public static CategoriesDTO fromEntity(Categories categories, List<Categories> allCategories){
         CategoriesDTO categoriesDTO = new CategoriesDTO();
@@ -24,12 +23,6 @@ public class CategoriesDTO {
         categoriesDTO.setId(categories.getId());
         categoriesDTO.setName(categories.getName());
         categoriesDTO.setParentCategory(categories.getParentCategory());
-
-        if (categories.getProducts() != null) {
-            categoriesDTO.setProducts(categories.getProducts().stream()
-                    .map(ProductDTO::fromEntity)
-                    .collect(Collectors.toList()));
-        }
 
         if (categories.getId() != null && allCategories != null) {
             List<Categories> categories1 = allCategories.stream()

@@ -1,6 +1,7 @@
 package com.servidor.gestiondeventas.entities.products.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.servidor.gestiondeventas.entities.products.Categories;
 import com.servidor.gestiondeventas.entities.products.Product;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class ProductDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date creation_date;
     private List<StoreSupplierDTO> storeSuppliers = new ArrayList<>();
+    private List<CategoriesDTO> categories = new ArrayList<>();
 
     public static ProductDTO fromEntity(Product product) {
         ProductDTO dto = new ProductDTO();
@@ -44,6 +46,12 @@ public class ProductDTO {
             dto.setStoreSuppliers(product.getStoreSuppliers().stream()
                     .map(StoreSupplierDTO::fromStoreSupplierDTO)
                     .collect(Collectors.toList()));
+        }
+        if (product.getCategories() != null) {
+            dto.setCategories(product.getCategories().stream()
+                    .map(category -> {
+                        return CategoriesDTO.fromEntity(category, (List<Categories>) product.getCategories());
+                    }).collect(Collectors.toList()));
         }
         return dto;
     }

@@ -23,14 +23,6 @@ public class Categories {
     @OneToMany(mappedBy = "parentCategory")
     private Set<Categories> subCategories = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "categories_products",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-
-    )
-    private Set<Product> products = new HashSet<>();
 
 
 }
