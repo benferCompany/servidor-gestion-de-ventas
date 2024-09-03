@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
+import com.servidor.gestiondeventas.entities.products.description.DescriptionProduct;
 import lombok.*;
 
 import javax.persistence.*;

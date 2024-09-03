@@ -3,6 +3,7 @@ package com.servidor.gestiondeventas.entities.products.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.servidor.gestiondeventas.entities.products.Categories;
 import com.servidor.gestiondeventas.entities.products.Product;
+import com.servidor.gestiondeventas.entities.products.description.DescriptionProductDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +27,7 @@ public class ProductDTO {
     private Date creation_date;
     private List<StoreSupplierDTO> storeSuppliers = new ArrayList<>();
     private List<CategoriesDTO> categories = new ArrayList<>();
+    private DescriptionProductDTO descriptionProduct;
 
     public static ProductDTO fromEntity(Product product) {
         ProductDTO dto = new ProductDTO();

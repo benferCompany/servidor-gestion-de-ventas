@@ -11,4 +11,7 @@ public class Message<T> {
  private String status;
 
 
+ public Message() {
+
+ }
 }
