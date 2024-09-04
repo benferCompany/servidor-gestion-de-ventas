@@ -48,7 +48,7 @@ public class MercadoPagoController {
                                 .description(detailProduct.getDescription())
                                 .pictureUrl("https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg")
                                 .categoryId("categoria")
-                                .quantity((int) Double.parseDouble("5.0"))
+                                .quantity((int) Double.parseDouble(String.valueOf(detailProduct.getQuality())))
                                 .currencyId("ARS")
                                 .unitPrice(BigDecimal.valueOf(detailProduct.getPrice()))
                                 .build();
@@ -75,9 +75,9 @@ public class MercadoPagoController {
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .backUrls(
                         PreferenceBackUrlsRequest.builder()
-                                .success("http://localhost:3001/statePage")
-                                .failure("http://localhost:3001/statePage")
-                                .pending("http://localhost:3001/statePage")
+                                .success("https://benfer.shop/statePage")
+                                .failure("https://benfer.shop/carrito")
+                                .pending("https://benfer.shop/statePage")
                                 .build())
                 .items(items).autoReturn("approved").build();
 
