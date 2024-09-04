@@ -6,6 +6,7 @@ import com.servidor.gestiondeventas.entities.persons.Customer;
 import com.servidor.gestiondeventas.entities.persons.dto.CustomerDTO;
 import com.servidor.gestiondeventas.services.persons.CustomerService;
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
+import com.servidor.gestiondeventas.tools.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.domain.Page;
@@ -70,7 +71,7 @@ public class CustomerController {
     }
 
     @GetMapping("/token")
-    public ResponseEntity<Customer> getToken(@RequestHeader(value="Authorization") String authorizationHeader) throws FirebaseAuthException {
+    public ResponseEntity<Message<Customer>> getToken(@RequestHeader(value="Authorization") String authorizationHeader) throws FirebaseAuthException {
         return new ResponseEntity<>(customerService.getToken(authorizationHeader),HttpStatus.OK);
     }
 

@@ -10,7 +10,6 @@ public class Message<T> {
  private String message;
  private String status;
 
-
  public Message() {
 
  }

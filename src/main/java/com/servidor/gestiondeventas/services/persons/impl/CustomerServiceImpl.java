@@ -6,13 +6,12 @@ import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.auth.UserRecord;
 import com.servidor.gestiondeventas.entities.persons.Customer;
 import com.servidor.gestiondeventas.entities.persons.dto.CustomerDTO;
-import com.servidor.gestiondeventas.entities.products.Product;
-import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.repository.persons.CustomerRepository;
 import com.servidor.gestiondeventas.services.persons.CustomerService;
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
 import com.servidor.gestiondeventas.tools.GenericSearchService;
 
+import com.servidor.gestiondeventas.tools.Message;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -50,8 +49,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer editCustomer(Customer customer) {
+        Optional<Customer> customer1 = customerRepository.findById(customer.getId());
+        if(customer1.isPresent()){
+            return customerRepository.save(customer);
+        }
+        return  null;
 
-        return customerRepository.save(customer);
     }
 
     @Override
@@ -79,18 +82,32 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getToken(String authorizationHeader) throws FirebaseAuthException {
+    public Message<Customer> getToken(String authorizationHeader) throws FirebaseAuthException {
         String token = authorizationHeader.replace("Bearer ", "");
         FirebaseToken user = FirebaseAuth.getInstance().verifyIdToken(token);
+        Message<Customer> message = new Message<Customer>();
         if(user.isEmailVerified()){
-            return customerRepository.findByEmail(user.getEmail()).orElseGet(()->{
-                Customer cus = new Customer();
-                cus.setEmail(user.getEmail());
-                return customerRepository.save(cus);
-            });
+            Optional<Customer> customer = customerRepository.findByEmail(user.getEmail());
+            if(customer.isPresent()){
+                message.setStatus("validate");
+                message.setEntity(customer.get());
+                message.setMessage("El usuario se encuentra entre nuestros clientes");
 
+            }else{
+                Customer nwcustomer = new Customer();
+                nwcustomer.setEmail(user.getEmail());
+                nwcustomer.setName(user.getName());
+                message.setEntity(customerRepository.save(nwcustomer));
+                message.setStatus("pending");
+                message.setMessage("El usuario es nuevo falta llenar datos");
+            }
+
+
+        }else {
+            message.setStatus("error");
+            message.setMessage("Ocurrio un error inesperado");
         }
-      return null;
+      return message;
     }
 
     @Override
