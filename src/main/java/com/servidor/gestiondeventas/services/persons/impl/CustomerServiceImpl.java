@@ -118,4 +118,15 @@ public class CustomerServiceImpl implements CustomerService {
         return FirebaseAuth.getInstance().createUser(request);
 
     }
+
+    @Override
+    public Customer getCustomerByEmail(String email) {
+        Optional<Customer> customerOptional = customerRepository.findByEmail(email);
+        if(customerOptional.isPresent()){
+            return customerOptional.get();
+        }
+        Customer customer = new Customer();
+        customer.setEmail(email);
+        return customerRepository.save(customer);
+    }
 }

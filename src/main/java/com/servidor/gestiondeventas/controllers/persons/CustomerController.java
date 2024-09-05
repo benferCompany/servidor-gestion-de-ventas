@@ -80,4 +80,9 @@ public class CustomerController {
        return new ResponseEntity<>(customerService.createUser(customer),HttpStatus.CREATED);
     }
 
+    @GetMapping("/byEmail/{email}")
+    public ResponseEntity<Customer> getCustomerByEmail(@PathVariable String email){
+        return new ResponseEntity<>(customerService.getCustomerByEmail(email),HttpStatus.OK);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.servidor.gestiondeventas.services.persons;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.servidor.gestiondeventas.entities.persons.Customer;
+import com.servidor.gestiondeventas.entities.persons.dto.CustomerDTO;
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
 import com.servidor.gestiondeventas.tools.Message;
 
@@ -24,5 +25,6 @@ public interface CustomerService {
 
     public Message<Customer> getToken(String authorizationHeader) throws FirebaseAuthException;
     public UserRecord createUser (Customer customer) throws FirebaseAuthException;
+    public Customer getCustomerByEmail(String email);
 
 }
