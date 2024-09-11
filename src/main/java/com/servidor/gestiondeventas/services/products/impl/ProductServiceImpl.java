@@ -170,7 +170,7 @@ public class ProductServiceImpl implements ProductService {
     public ItemSearchResult getProductByName(String text, int page, int size) {
         GenericSearchService<Product> genericSearchService = new GenericSearchService<>(entityManager, Product.class);
 
-        Map<String, Object> searchResult = genericSearchService.getEntitiesBySearchTerms(text, new String[]{"description","idInternal"}, page, size);
+        Map<String, Object> searchResult = genericSearchService.getEntitiesBySearchTerms(text, new String[]{"title","idInternal"}, page, size);
         List<Product> products = (List<Product>) searchResult.get("resultQuery");
         Long totalElements = (Long) searchResult.get("totalElements");
         List<ProductDTO> productDTOList = products.stream()
