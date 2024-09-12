@@ -85,4 +85,9 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.getCustomerByEmail(email),HttpStatus.OK);
     }
 
+    @DeleteMapping("deleteByEmail/{email}")
+    public boolean deleteByEmail(@PathVariable String email) throws FirebaseAuthException {
+        return customerService.deleteByEmail(email);
+    }
+
 }

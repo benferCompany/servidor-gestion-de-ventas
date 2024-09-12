@@ -129,4 +129,17 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setEmail(email);
         return customerRepository.save(customer);
     }
+    @Override
+    public boolean deleteByEmail(String email) throws FirebaseAuthException {
+        Optional<Customer> customerOptional = customerRepository.findByEmail(email);
+        if(customerOptional.isPresent()){
+            FirebaseAuth user = FirebaseAuth.getInstance();
+
+            user.deleteUser(user.getUserByEmail(email).getUid());
+
+            customerRepository.delete(customerOptional.get());
+            return true;
+        }
+        return false;
+    }
 }

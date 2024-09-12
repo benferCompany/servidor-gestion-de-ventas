@@ -26,5 +26,5 @@ public interface CustomerService {
     public Message<Customer> getToken(String authorizationHeader) throws FirebaseAuthException;
     public UserRecord createUser (Customer customer) throws FirebaseAuthException;
     public Customer getCustomerByEmail(String email);
-
+    public boolean deleteByEmail(String email) throws FirebaseAuthException;
 }
