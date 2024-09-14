@@ -4,11 +4,15 @@ import com.servidor.gestiondeventas.entities.persons.Supplier;
 import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.products.Store;
 import com.servidor.gestiondeventas.entities.products.StoreSupplier;
+import com.servidor.gestiondeventas.entities.products.description.DescriptionProduct;
+import com.servidor.gestiondeventas.entities.products.description.DescriptionProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.ProductEditExcelDto;
+import com.servidor.gestiondeventas.entities.products.images.ImagesProduct;
 import com.servidor.gestiondeventas.repository.balance.CapitalRepository;
 import com.servidor.gestiondeventas.repository.products.StoreSupplierRepository;
 import com.servidor.gestiondeventas.services.balance.CapitalService;
+import com.servidor.gestiondeventas.services.products.DescriptionProductService;
 import com.servidor.gestiondeventas.services.products.impl.StoreServiceImpl;
 import com.servidor.gestiondeventas.services.products.impl.StoreSupplierServiceImpl;
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
@@ -46,7 +50,8 @@ public class ProductServiceImpl implements ProductService {
     private final StoreServiceImpl storeServiceImpl;
     private final StoreSupplierServiceImpl storeSupplierServiceImpl;
     private final CapitalService capitalService;
-
+    private final ImagesProductServiceImpl imagesProductService;
+    private final DescriptionProductService descriptionProductService;
     @Override
     public Page<ProductDTO> getProduct(Pageable pageable) {
         // Obtener una página de entidades desde el repositorio
@@ -155,9 +160,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean deleteProduct(Long idProduct) {
         Optional<Product> product = productRepository.findById(idProduct);
-
+        ImagesProduct imagesProduct =imagesProductService.getImagesProduct(idProduct);
+        DescriptionProductDTO descriptionProductDTO = descriptionProductService.getDescriptionByIdProduct(idProduct);
         if (product.isEmpty()) {
             return false;
+        }
+        if(imagesProduct !=null){
+            imagesProductService.deleteImagesProduct(imagesProduct.getId());
+        }
+        if(descriptionProductDTO !=null){
+            descriptionProductService.deleteDescriptionProduct(descriptionProductDTO.getId());
         }
 
         productRepository.delete(product.get());
@@ -240,4 +252,5 @@ public class ProductServiceImpl implements ProductService {
             return new Message<>(productReturn, message, status);
 
     }
+
 }

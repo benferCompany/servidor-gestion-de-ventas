@@ -21,7 +21,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     public List<CategoriesDTO> getCategories() {
 
         return categoriesRepository.findAll().stream()
-                .map(cat-> CategoriesDTO.fromEntity(cat,categoriesRepository.findAll()))
+                .map(CategoriesDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 

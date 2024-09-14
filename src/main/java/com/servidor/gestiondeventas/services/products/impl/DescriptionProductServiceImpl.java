@@ -31,4 +31,14 @@ public class DescriptionProductServiceImpl implements DescriptionProductService 
     public DescriptionProductDTO createDescriptionProduct(DescriptionProduct descriptionProduct) {
         return new DescriptionProductDTO().fromEntity(descriptionProductRepository.save(descriptionProduct));
     }
+
+    @Override
+    public boolean deleteDescriptionProduct(Long id) {
+        Optional<DescriptionProduct> descriptionProduct = descriptionProductRepository.findById(id);
+        if(descriptionProduct.isPresent()){
+            descriptionProductRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }

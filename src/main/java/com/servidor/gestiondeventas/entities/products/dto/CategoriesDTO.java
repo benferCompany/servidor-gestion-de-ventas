@@ -15,24 +15,14 @@ public class CategoriesDTO {
     private Long id;
     private String name;
     private Categories parentCategory;
-    private List<Categories> subCategories = new ArrayList<>();
 
-    public static CategoriesDTO fromEntity(Categories categories, List<Categories> allCategories){
+    public static CategoriesDTO fromEntity(Categories categories){
         CategoriesDTO categoriesDTO = new CategoriesDTO();
 
         categoriesDTO.setId(categories.getId());
         categoriesDTO.setName(categories.getName());
         categoriesDTO.setParentCategory(categories.getParentCategory());
 
-        if (categories.getId() != null && allCategories != null) {
-            List<Categories> categories1 = allCategories.stream()
-                    .filter(cat -> cat != null &&
-                            cat.getParentCategory() != null &&
-                            cat.getParentCategory().getId().equals(categories.getId()))
-                    .collect(Collectors.toList());
-
-            categoriesDTO.setSubCategories(categories1);
-        }
         return categoriesDTO;
     }
 }

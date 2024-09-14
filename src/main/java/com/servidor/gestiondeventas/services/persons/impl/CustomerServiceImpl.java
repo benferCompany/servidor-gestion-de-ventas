@@ -136,7 +136,6 @@ public class CustomerServiceImpl implements CustomerService {
             FirebaseAuth user = FirebaseAuth.getInstance();
 
             user.deleteUser(user.getUserByEmail(email).getUid());
-
             customerRepository.delete(customerOptional.get());
             return true;
         }

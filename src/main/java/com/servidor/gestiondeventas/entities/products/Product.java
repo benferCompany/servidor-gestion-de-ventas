@@ -1,11 +1,8 @@
 package com.servidor.gestiondeventas.entities.products;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
-import com.servidor.gestiondeventas.entities.products.description.DescriptionProduct;
 import lombok.*;
 
 import javax.persistence.*;
@@ -52,6 +49,6 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "category_id")
 
     )
-    private Set<Categories> categories = new HashSet<>();
+    private List<Categories> categories = new ArrayList<>();
 
 }

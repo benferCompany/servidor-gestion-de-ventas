@@ -19,7 +19,6 @@ import java.util.Date;
 @Configuration
 @AllArgsConstructor
 public class LoadTable {
-    /*
     private final SalesPersonRepository salesPersonRepository;
     private final SupplierRepository supplierRepository;
     private final CompanyRepository companyRepository;
@@ -69,5 +68,5 @@ public class LoadTable {
 
     }
 
-     */
+
 }

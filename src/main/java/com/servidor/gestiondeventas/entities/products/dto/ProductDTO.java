@@ -51,9 +51,7 @@ public class ProductDTO {
         }
         if (product.getCategories() != null) {
             dto.setCategories(product.getCategories().stream()
-                    .map(category -> {
-                        return CategoriesDTO.fromEntity(category, (List<Categories>) product.getCategories());
-                    }).collect(Collectors.toList()));
+                    .map(CategoriesDTO::fromEntity).collect(Collectors.toList()));
         }
         return dto;
     }

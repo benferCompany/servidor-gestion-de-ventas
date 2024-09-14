@@ -8,4 +8,5 @@ import com.servidor.gestiondeventas.tools.Message;
 public interface DescriptionProductService {
     public DescriptionProductDTO getDescriptionByIdProduct(Long idProduct);
     public DescriptionProductDTO createDescriptionProduct(DescriptionProduct descriptionProduct);
+    public boolean deleteDescriptionProduct(Long id);
 }
