@@ -43,16 +43,6 @@ public class ProductController {
     final private StoreService storeService;
     final private StoreSupplierRepository storeSupplierRepository;
 
-    //Buscar todos los productos en un rango de 0 a 10; por el momento no se usa
-   /* @GetMapping
-    public ResponseEntity<Page<ProductDTO>> getProduct(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        PageRequest pageable = PageRequest.of(page, size);
-        Page<ProductDTO> productPage = productService.getProduct(pageable);
-        return new ResponseEntity<>(productPage, HttpStatus.OK);
-    }*/
 
     @GetMapping("/{idProduct}")
     public ResponseEntity<ProductDTO> getSupplierById(@PathVariable Long idProduct) {
@@ -137,6 +127,11 @@ public class ProductController {
     public ResponseEntity<Message<ProductDTO>> createOrUpdate(@RequestBody Product product){
 
         return new ResponseEntity<>(productService.createOrUpdate(product),HttpStatus.OK);
+    }
+
+    @GetMapping("category/{category}")
+    public ResponseEntity<List<ProductDTO>> getProductsByCategory(@PathVariable String category){
+        return new ResponseEntity<>(productService.getProductsByCategory(category), HttpStatus.OK);
     }
 
 }

@@ -13,5 +13,6 @@ public interface CategoriesService {
     public Categories editCategory(Categories categories);
 
     public boolean deleteCategory(Long id);
+    public Categories getCategoryByName(String name);
 
 }

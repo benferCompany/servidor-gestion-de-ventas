@@ -1,6 +1,7 @@
 package com.servidor.gestiondeventas.services.products.impl;
 
 import com.servidor.gestiondeventas.entities.persons.Supplier;
+import com.servidor.gestiondeventas.entities.products.Categories;
 import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.products.Store;
 import com.servidor.gestiondeventas.entities.products.StoreSupplier;
@@ -52,6 +53,7 @@ public class ProductServiceImpl implements ProductService {
     private final CapitalService capitalService;
     private final ImagesProductServiceImpl imagesProductService;
     private final DescriptionProductService descriptionProductService;
+    private final CategoriesServiceImpl categoriesService;
     @Override
     public Page<ProductDTO> getProduct(Pageable pageable) {
         // Obtener una página de entidades desde el repositorio
@@ -252,5 +254,12 @@ public class ProductServiceImpl implements ProductService {
             return new Message<>(productReturn, message, status);
 
     }
+    @Override
+    public List<ProductDTO> getProductsByCategory(String category){
 
+        List<Categories> categories = new ArrayList<>();
+        categories.add(categoriesService.getCategoryByName(category));
+        return productRepository.findByCategories(categories).stream().map(ProductDTO::fromEntity).collect(Collectors.toList());
+
+    }
 }

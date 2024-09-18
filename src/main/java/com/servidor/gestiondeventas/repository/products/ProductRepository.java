@@ -1,5 +1,6 @@
 package com.servidor.gestiondeventas.repository.products;
 
+import com.servidor.gestiondeventas.entities.products.Categories;
 import com.servidor.gestiondeventas.entities.products.Product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,4 +31,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     Product findFirstByOrderByIdDesc();
 
     Product findFirstByIdInternal(String idInternal);
+
+     // Buscar productos que pertenezcan a una lista de categorías
+     @Query("SELECT p FROM Product p WHERE p.categories IN :categories")
+     List<Product> findByCategories(@Param("categories") List<Categories> categories);
+
 }

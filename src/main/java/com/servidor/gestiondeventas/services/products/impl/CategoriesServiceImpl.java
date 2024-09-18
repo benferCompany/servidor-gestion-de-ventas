@@ -49,4 +49,8 @@ public class CategoriesServiceImpl implements CategoriesService {
         }
         return false;
     }
+    @Override
+    public Categories getCategoryByName(String name){
+        return categoriesRepository.findByName(name).orElse(null);
+    }
 }

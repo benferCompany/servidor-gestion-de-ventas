@@ -34,4 +34,5 @@ public interface ProductService {
     public Long lastElement();
 
     public Message<ProductDTO> createOrUpdate(Product product);
+    public List<ProductDTO> getProductsByCategory(String category);
 }
