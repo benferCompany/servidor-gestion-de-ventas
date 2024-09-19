@@ -14,39 +14,29 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public class ProductDTO {
+public class ProductShopDTO {
     private Long id;
     private String idInternal;
     private String title;
-    private String description;
-    private double cost_price;
     private double selling_price;
     private List<StoreDTO> stores;
     private String image;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date creation_date;
-    private List<StoreSupplierDTO> storeSuppliers = new ArrayList<>();
     private List<CategoriesDTO> categories = new ArrayList<>();
 
-    public static ProductDTO fromEntity(Product product) {
-        ProductDTO dto = new ProductDTO();
+    public static ProductShopDTO fromEntity(Product product) {
+        ProductShopDTO dto = new ProductShopDTO();
         if (product.getId() != null) {
             dto.setId(product.getId());
         }
         dto.setIdInternal(product.getIdInternal());
         dto.setTitle(product.getTitle());
-        dto.setDescription(product.getDescription());
-        dto.setCost_price(product.getCost_price());
         dto.setSelling_price(product.getSelling_price());
         dto.setImage(product.getImage());
         dto.setCreation_date(product.getCreation_date());
         if (product.getStores() != null) {
             dto.setStores(product.getStores().stream().map(StoreDTO::fromEntity).collect(Collectors.toList()));
-        }
-        if (product.getStoreSuppliers() != null) {
-            dto.setStoreSuppliers(product.getStoreSuppliers().stream()
-                    .map(StoreSupplierDTO::fromStoreSupplierDTO)
-                    .collect(Collectors.toList()));
         }
         if (product.getCategories() != null) {
             dto.setCategories(product.getCategories().stream()

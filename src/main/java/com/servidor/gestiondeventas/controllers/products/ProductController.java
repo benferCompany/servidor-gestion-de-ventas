@@ -3,6 +3,7 @@ package com.servidor.gestiondeventas.controllers.products;
 import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.ProductEditExcelDto;
+import com.servidor.gestiondeventas.entities.products.dto.ProductShopDTO;
 import com.servidor.gestiondeventas.repository.products.StoreSupplierRepository;
 import com.servidor.gestiondeventas.services.products.ProductService;
 import com.servidor.gestiondeventas.services.products.StoreService;
@@ -130,8 +131,13 @@ public class ProductController {
     }
 
     @GetMapping("category/{category}")
-    public ResponseEntity<List<ProductDTO>> getProductsByCategory(@PathVariable String category){
+    public ResponseEntity<List<ProductShopDTO>> getProductsByCategory(@PathVariable String category){
         return new ResponseEntity<>(productService.getProductsByCategory(category), HttpStatus.OK);
+    }
+
+    @PostMapping("category/product")
+    public ResponseEntity<ProductDTO> deleteCategoryInProduct(@RequestBody Product product){
+        return new ResponseEntity<>(productService.deleteCategoryInProduct(product), HttpStatus.OK);
     }
 
 }

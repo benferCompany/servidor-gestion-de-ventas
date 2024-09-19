@@ -9,6 +9,7 @@ import com.servidor.gestiondeventas.entities.products.description.DescriptionPro
 import com.servidor.gestiondeventas.entities.products.description.DescriptionProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.ProductEditExcelDto;
+import com.servidor.gestiondeventas.entities.products.dto.ProductShopDTO;
 import com.servidor.gestiondeventas.entities.products.images.ImagesProduct;
 import com.servidor.gestiondeventas.repository.balance.CapitalRepository;
 import com.servidor.gestiondeventas.repository.products.StoreSupplierRepository;
@@ -255,11 +256,16 @@ public class ProductServiceImpl implements ProductService {
 
     }
     @Override
-    public List<ProductDTO> getProductsByCategory(String category){
+    public List<ProductShopDTO> getProductsByCategory(String category){
 
         List<Categories> categories = new ArrayList<>();
         categories.add(categoriesService.getCategoryByName(category));
-        return productRepository.findByCategories(categories).stream().map(ProductDTO::fromEntity).collect(Collectors.toList());
+        return productRepository.findByCategoriesIn(categories).stream().map(ProductShopDTO::fromEntity).collect(Collectors.toList());
 
+    }
+
+    @Override
+    public ProductDTO deleteCategoryInProduct(Product product){
+        return ProductDTO.fromEntity(productRepository.save(product));
     }
 }

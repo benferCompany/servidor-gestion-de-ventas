@@ -32,8 +32,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     Product findFirstByIdInternal(String idInternal);
 
-     // Buscar productos que pertenezcan a una lista de categorías
-     @Query("SELECT p FROM Product p WHERE p.categories IN :categories")
-     List<Product> findByCategories(@Param("categories") List<Categories> categories);
+    @Query("SELECT p FROM Product p JOIN p.categories c WHERE c IN :categories")
+    List<Product> findByCategoriesIn(@Param("categories") List<Categories> categories);
 
 }
