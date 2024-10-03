@@ -3,7 +3,6 @@ package com.servidor.gestiondeventas.controllers.products;
 import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.products.dto.ProductEditExcelDto;
-import com.servidor.gestiondeventas.entities.products.dto.ProductShopDTO;
 import com.servidor.gestiondeventas.repository.products.StoreSupplierRepository;
 import com.servidor.gestiondeventas.services.products.ProductService;
 import com.servidor.gestiondeventas.services.products.StoreService;
@@ -23,7 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,8 +93,10 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
+        @SuppressWarnings("rawtypes")
         ItemSearchResult itemSearchResult = productService.getProductByName(product.getDescription(), page, size);
 
+        @SuppressWarnings("unchecked")
         List<ProductDTO> productDTOList = itemSearchResult.getResultList();
         Long totalElements = itemSearchResult.getTotalElements();
 
@@ -130,9 +130,17 @@ public class ProductController {
         return new ResponseEntity<>(productService.createOrUpdate(product),HttpStatus.OK);
     }
 
-    @GetMapping("category/{category}")
-    public ResponseEntity<List<ProductShopDTO>> getProductsByCategory(@PathVariable String category){
-        return new ResponseEntity<>(productService.getProductsByCategory(category), HttpStatus.OK);
+    @SuppressWarnings("rawtypes")
+    @GetMapping("/category/{text}")
+    public ResponseEntity<PageImpl> getProductsByCategory(
+            @PathVariable String text,
+            @RequestParam(defaultValue = "0") int page,   // Parámetro de página con valor por defecto 0
+            @RequestParam(defaultValue = "10") int size, // Parámetro de tamaño con valor por defecto 10
+            @RequestParam(defaultValue = "") String category   
+    ) {
+        // Llamar al servicio para obtener los productos paginados
+        PageImpl result = productService.getProductsByCategory(category,text, page, size);
+        return ResponseEntity.ok(result);  // Devolver el resultado en la respuesta
     }
 
     @PostMapping("category/product")

@@ -8,6 +8,7 @@ import com.servidor.gestiondeventas.entities.products.dto.ProductShopDTO;
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
 import com.servidor.gestiondeventas.tools.Message;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -35,6 +36,6 @@ public interface ProductService {
     public Long lastElement();
 
     public Message<ProductDTO> createOrUpdate(Product product);
-    public List<ProductShopDTO> getProductsByCategory(String category);
+    public PageImpl<ProductShopDTO> getProductsByCategory(String category,String text, int page, int size);
     public ProductDTO deleteCategoryInProduct(Product product);
 }

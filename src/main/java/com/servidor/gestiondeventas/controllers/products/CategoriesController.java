@@ -47,5 +47,10 @@ public class CategoriesController {
         return new ResponseEntity<>(categoriesService.getCategoriesParentName(name),HttpStatus.OK);
     }
 
+    @GetMapping("/parentCategory")
+    public ResponseEntity<List<CategoriesDTO>> getCategoryByParentIsNull(){
+        return new ResponseEntity<>(categoriesService.getCategoriesByParentCategoryIsNull(),HttpStatus.OK);
+    }
+
 
 }

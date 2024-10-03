@@ -17,5 +17,6 @@ public interface CategoriesService {
     public Categories getCategoryByName(String name);
     public Message<CategoriesDTO> deleteCategoryFreeProducts(Categories category);
     public List<CategoriesDTO> getCategoriesParentName(String name);
+    public List<CategoriesDTO> getCategoriesByParentCategoryIsNull();
 
 }

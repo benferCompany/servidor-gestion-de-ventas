@@ -1,10 +1,8 @@
 package com.servidor.gestiondeventas.controllers.products;
 
-import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.products.description.DescriptionProduct;
 import com.servidor.gestiondeventas.entities.products.description.DescriptionProductDTO;
 import com.servidor.gestiondeventas.services.products.DescriptionProductService;
-import com.servidor.gestiondeventas.tools.Message;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

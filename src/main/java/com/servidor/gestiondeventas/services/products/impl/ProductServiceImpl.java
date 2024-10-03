@@ -30,6 +30,8 @@ import com.servidor.gestiondeventas.tools.Message;
 import lombok.AllArgsConstructor;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -55,6 +57,7 @@ public class ProductServiceImpl implements ProductService {
     private final ImagesProductServiceImpl imagesProductService;
     private final DescriptionProductService descriptionProductService;
     private final CategoriesServiceImpl categoriesService;
+
     @Override
     public Page<ProductDTO> getProduct(Pageable pageable) {
         // Obtener una página de entidades desde el repositorio
@@ -82,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
         newProduct.setImage(product.getImage());
         newProduct.setIdInternal(product.getIdInternal());
         Product productSave = productRepository.save(newProduct);
-        if(product.getStores() !=null){
+        if (product.getStores() != null) {
             for (Store store : product.getStores()) {
                 Store newStore = new Store();
                 newStore.setCompany(store.getCompany());
@@ -93,11 +96,11 @@ public class ProductServiceImpl implements ProductService {
                 productSave.getStores().add(storeRepository.save(newStore));
 
             }
-            Double total = product.getStores().get(0).getStock()*product.getCost_price();
+            Double total = product.getStores().get(0).getStock() * product.getCost_price();
             capitalService.capitalSumStock(total);
         }
 
-        if(product.getStoreSuppliers() !=null){
+        if (product.getStoreSuppliers() != null) {
             for (StoreSupplier storeSupplier : product.getStoreSuppliers()) {
                 StoreSupplier newStoreSupplier = new StoreSupplier();
                 Optional<Supplier> supplier = supplierRepository.findById(storeSupplier.getSupplier().getId());
@@ -128,11 +131,11 @@ public class ProductServiceImpl implements ProductService {
             product2.setSelling_price(product.getSelling_price());
             product2.setIdInternal(product.getIdInternal());
 
-            if(product.getStores() !=null){
-                for(Store store : product.getStores()){
-                    if(store.getId()>0){
+            if (product.getStores() != null) {
+                for (Store store : product.getStores()) {
+                    if (store.getId() > 0) {
                         storeServiceImpl.editStore(store);
-                    }else{
+                    } else {
                         product2.getStores().add(storeRepository.save(store));
                     }
                 }
@@ -140,16 +143,15 @@ public class ProductServiceImpl implements ProductService {
 
             // Actualización de proveedores de tiendas
 
-            if(product.getStoreSuppliers() !=null){
-                for(StoreSupplier storeSupplier : product.getStoreSuppliers()){
+            if (product.getStoreSuppliers() != null) {
+                for (StoreSupplier storeSupplier : product.getStoreSuppliers()) {
 
-                    if(storeSupplier.getId()>0){
+                    if (storeSupplier.getId() > 0) {
                         storeSupplierServiceImpl.editStoreSupplier(storeSupplier);
-                    }else{
+                    } else {
                         product2.getStoreSuppliers().add(storeSupplierRepository.save(storeSupplier));
 
                     }
-
 
                 }
             }
@@ -163,15 +165,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean deleteProduct(Long idProduct) {
         Optional<Product> product = productRepository.findById(idProduct);
-        ImagesProduct imagesProduct =imagesProductService.getImagesProduct(idProduct);
+        ImagesProduct imagesProduct = imagesProductService.getImagesProduct(idProduct);
         DescriptionProductDTO descriptionProductDTO = descriptionProductService.getDescriptionByIdProduct(idProduct);
         if (product.isEmpty()) {
             return false;
         }
-        if(imagesProduct !=null){
+        if (imagesProduct != null) {
             imagesProductService.deleteImagesProduct(imagesProduct.getId());
         }
-        if(descriptionProductDTO !=null){
+        if (descriptionProductDTO != null) {
             descriptionProductService.deleteDescriptionProduct(descriptionProductDTO.getId());
         }
 
@@ -185,7 +187,8 @@ public class ProductServiceImpl implements ProductService {
     public ItemSearchResult getProductByName(String text, int page, int size) {
         GenericSearchService<Product> genericSearchService = new GenericSearchService<>(entityManager, Product.class);
 
-        Map<String, Object> searchResult = genericSearchService.getEntitiesBySearchTerms(text, new String[]{"title","idInternal"}, page, size);
+        Map<String, Object> searchResult = genericSearchService.getEntitiesBySearchTerms(text,
+                new String[] { "title", "idInternal" }, page, size);
         List<Product> products = (List<Product>) searchResult.get("resultQuery");
         Long totalElements = (Long) searchResult.get("totalElements");
         List<ProductDTO> productDTOList = products.stream()
@@ -193,6 +196,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
         return new ItemSearchResult<>(productDTOList, totalElements);
     }
+
     @Transactional
     @Override
     public List<ProductDTO> importExcel(List<Product> products) {
@@ -206,9 +210,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean updatePrice(ProductEditExcelDto productPrice) {
 
-        List<StoreSupplier> storeSuppliers = storeSupplierRepository.selectByIdSupplierOne(productPrice.getIdSupplierOne());
+        List<StoreSupplier> storeSuppliers = storeSupplierRepository
+                .selectByIdSupplierOne(productPrice.getIdSupplierOne());
         for (StoreSupplier storeSupplier : storeSuppliers) {
-            if (storeSupplier.getProduct() != null ) {
+            if (storeSupplier.getProduct() != null) {
                 Product product = storeSupplier.getProduct();
                 product.setCost_price(productPrice.getCost_price());
                 product.setSelling_price(productPrice.getSelling_price());
@@ -221,51 +226,75 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> exportExcel(){
+    public List<ProductDTO> exportExcel() {
 
         return productRepository.findAll().stream().map(
-                ProductDTO::fromEntity
-        ).collect(Collectors.toList());
+                ProductDTO::fromEntity).collect(Collectors.toList());
     }
 
     @Override
-    public Long lastElement(){
+    public Long lastElement() {
         Product product = productRepository.findFirstByOrderByIdDesc();
         return product.getId();
     }
 
     @Override
-    public Message<ProductDTO> createOrUpdate(Product product){
-            Product productResponse = productRepository.findFirstByIdInternal(product.getIdInternal());
-            String message;
-            String status;
-            ProductDTO productReturn;
-            if(productResponse != null){
-                product.setId(productResponse.getId());
-                message = "Producto actualizado con éxito";
-                status = "UPDATE";
-                productReturn = editProduct(product);
-            }else{
-                message = "Producto creado con éxito";
-                status ="CREATED";
-                productReturn = createProduct(product);
+    public Message<ProductDTO> createOrUpdate(Product product) {
+        Product productResponse = productRepository.findFirstByIdInternal(product.getIdInternal());
+        String message;
+        String status;
+        ProductDTO productReturn;
+        if (productResponse != null) {
+            product.setId(productResponse.getId());
+            message = "Producto actualizado con éxito";
+            status = "UPDATE";
+            productReturn = editProduct(product);
+        } else {
+            message = "Producto creado con éxito";
+            status = "CREATED";
+            productReturn = createProduct(product);
 
-            }
+        }
 
-            return new Message<>(productReturn, message, status);
-
-    }
-    @Override
-    public List<ProductShopDTO> getProductsByCategory(String category){
-
-        List<Categories> categories = new ArrayList<>();
-        categories.add(categoriesService.getCategoryByName(category));
-        return productRepository.findByCategoriesIn(categories).stream().map(ProductShopDTO::fromEntity).collect(Collectors.toList());
+        return new Message<>(productReturn, message, status);
 
     }
 
     @Override
-    public ProductDTO deleteCategoryInProduct(Product product){
+    public PageImpl<ProductShopDTO> getProductsByCategory(String category, String text, int page, int size) {
+        GenericSearchService<Product> genericSearchService = new GenericSearchService<>(entityManager, Product.class);
+
+        Map<String, Object> searchResult = genericSearchService.getEntitiesBySearchTerms(text,
+                new String[] { "title", "idInternal" }, 0, 100);
+        List<Product> products = (List<Product>) searchResult.get("resultQuery");
+        List<ProductShopDTO> productShopDTO = products.stream()
+                .map(ProductShopDTO::fromEntity)
+                .collect(Collectors.toList());
+
+        Pageable pageable = PageRequest.of(page, size);
+        List<ProductShopDTO> productFilter = new ArrayList<ProductShopDTO>();
+        if (!category.equals("")) {
+
+            productShopDTO.stream()
+                    .filter(pr -> pr.getCategories().stream()
+                            .anyMatch(ct -> ct.getName().equals(category))) // Filtrar productos que tengan la categoría
+                                                                            // deseada
+                    .forEach(productFilter::add); // Agregar el producto filtrado a la lista
+
+        } else {
+            productFilter = productShopDTO;
+        }
+        // Aquí aplicamos la paginación manualmente
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), productFilter.size());
+        List<ProductShopDTO> paginatedList = productFilter.subList(start, end);
+
+        Long totalElements = (long) productFilter.size();
+        return new PageImpl<>(paginatedList, pageable, totalElements);
+    }
+
+    @Override
+    public ProductDTO deleteCategoryInProduct(Product product) {
         return ProductDTO.fromEntity(productRepository.save(product));
     }
 }

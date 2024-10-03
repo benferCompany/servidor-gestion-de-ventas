@@ -110,4 +110,10 @@ public class CategoriesServiceImpl implements CategoriesService {
     public List<CategoriesDTO> getCategoriesParentName(String name){
         return categoriesRepository.findByParentCategory_Name(name).stream().map(CategoriesDTO::fromEntity).collect(Collectors.toList());
     }
+
+    @Override
+    public List<CategoriesDTO> getCategoriesByParentCategoryIsNull(){
+        return categoriesRepository.findByParentCategoryIsNull().stream()
+            .map(CategoriesDTO::fromEntity).collect(Collectors.toList());
+    }
 }

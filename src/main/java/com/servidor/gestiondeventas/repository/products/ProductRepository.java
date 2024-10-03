@@ -3,6 +3,8 @@ package com.servidor.gestiondeventas.repository.products;
 import com.servidor.gestiondeventas.entities.products.Categories;
 import com.servidor.gestiondeventas.entities.products.Product;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -33,6 +35,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     Product findFirstByIdInternal(String idInternal);
 
     @Query("SELECT p FROM Product p JOIN p.categories c WHERE c IN :categories")
+    Page<Product> findByCategoriesIn(@Param("categories") List<Categories> categories, Pageable pageable);
+    
+    @Query("SELECT p FROM Product p JOIN p.categories c WHERE c IN :categories")
     List<Product> findByCategoriesIn(@Param("categories") List<Categories> categories);
-
+    
 }
