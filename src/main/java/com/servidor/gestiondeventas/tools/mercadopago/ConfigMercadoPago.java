@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
 public class ConfigMercadoPago {
     @Bean
     public void MercadoPago(){
-        MercadoPagoConfig.setAccessToken("APP_USR-2089742873293792-072314-a4302a96343bb453bfb47078f8ff03a1-477455682");
+        MercadoPagoConfig.setAccessToken("APP_USR-1672359003086280-100818-2d679c9c50811d51a48b4c7a42f58c7b-477455682");
     }
 }
