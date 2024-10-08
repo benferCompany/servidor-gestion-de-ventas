@@ -1,7 +1,9 @@
 package com.servidor.gestiondeventas.services.products.impl;
 
+import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.products.images.ImagesProduct;
 import com.servidor.gestiondeventas.repository.products.ImagesProductRepository;
+import com.servidor.gestiondeventas.repository.products.ProductRepository;
 import com.servidor.gestiondeventas.services.products.ImagesProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ImagesProductServiceImpl implements ImagesProductService {
     private final ImagesProductRepository imagesProductRepository;
+    private final ProductRepository productRepository;
     @Override
     public ImagesProduct getImagesProduct(Long idProd) {
         return imagesProductRepository.findByIdProd(idProd).orElse(null);
@@ -30,8 +33,10 @@ public class ImagesProductServiceImpl implements ImagesProductService {
     @Override
     public ImagesProduct updateImagesProduct(ImagesProduct imagesProduct) {
         Optional<ImagesProduct> imagesProduct1 = imagesProductRepository.findByIdProd(imagesProduct.getIdProd());
-
+        Optional<Product> product = productRepository.findById(imagesProduct.getIdProd());
         if(imagesProduct1.isPresent()){
+            return imagesProductRepository.save(imagesProduct);
+        }else if(product.isPresent() && !imagesProduct1.isPresent()){
             return imagesProductRepository.save(imagesProduct);
         }
         return null;
