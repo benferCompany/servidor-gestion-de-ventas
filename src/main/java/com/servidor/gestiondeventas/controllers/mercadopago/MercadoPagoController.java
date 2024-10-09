@@ -76,10 +76,10 @@ public class MercadoPagoController {
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .backUrls(
                         PreferenceBackUrlsRequest.builder()
-                                .success("https://benfer.shop/statePage")
+                                .success("https://benfer.shop")
                                 .failure("https://benfer.shop/carrito")
-                                .pending("https://benfer.shop/statePage")
-                                .build())
+                                .pending("https://benfer.shop")
+                                .build()).notificationUrl("https://benfer.shop/api/mercadoPago/webhooks")
                 .items(items).autoReturn("approved").build();
 
         return client.create(preferenceRequest,requestOptions);
