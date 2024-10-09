@@ -47,7 +47,7 @@ public class MercadoPagoController {
                                 .id(detailProduct.getProductId().toString())
                                 .title(detailProduct.getDescription())
                                 .description(detailProduct.getDescription())
-                                .pictureUrl("https://www.wurth.com.ar/blog/wp-content/uploads/2022/11/martillo-de-carpintero.jpg")
+                                .pictureUrl(product.get().getImage())
                                 .categoryId("categoria")
                                 .quantity((int) Double.parseDouble(String.valueOf(detailProduct.getQuality())))
                                 .currencyId("ARS")
