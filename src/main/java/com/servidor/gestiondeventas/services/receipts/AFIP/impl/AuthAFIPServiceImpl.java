@@ -28,6 +28,7 @@ public class AuthAFIPServiceImpl implements AuthAFIPService {
     private final AuthAFIPRepository authAFIPRepository;
 
     //Solicita el CAE.
+    @SuppressWarnings("unused")
     @Override
     public MessageBoolean sendSoapRequest() throws IOException {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
