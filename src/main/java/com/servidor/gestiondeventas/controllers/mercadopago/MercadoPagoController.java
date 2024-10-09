@@ -14,6 +14,8 @@ import com.servidor.gestiondeventas.entities.receipts.DetailProduct;
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.services.products.ProductService;
 import lombok.AllArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -121,4 +123,10 @@ public class MercadoPagoController {
 
     }
 
+     @PostMapping("/webhooks")
+    public ResponseEntity<String> handleWebhook(@RequestBody Map<String, Object> payload) {
+        // Aquí puedes procesar el payload
+        System.out.println("Notificación recibida: " + payload);
+        return ResponseEntity.ok("Webhook recibido correctamente");
+    }
 }
