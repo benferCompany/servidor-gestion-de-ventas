@@ -9,9 +9,11 @@ import com.mercadopago.exceptions.MPException;
 
 import com.mercadopago.resources.payment.Payment;
 import com.mercadopago.resources.preference.Preference;
+import com.servidor.gestiondeventas.entities.mercadopago.WebhookEvent;
 import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.receipts.DetailProduct;
 import com.servidor.gestiondeventas.entities.receipts.Details;
+import com.servidor.gestiondeventas.services.mercadopago.WebhookEventService;
 import com.servidor.gestiondeventas.services.products.ProductService;
 import lombok.AllArgsConstructor;
 
@@ -27,7 +29,7 @@ import java.util.*;
 @CrossOrigin(origins = "*")
 public class MercadoPagoController {
     private final ProductService productService;
-
+    private final WebhookEventService webhookEventService;
     @PostMapping
     public Preference getApi(@RequestBody Details details) throws MPException, MPApiException {
         Map<String, String> customHeaders = new HashMap<>();
@@ -124,9 +126,10 @@ public class MercadoPagoController {
     }
 
      @PostMapping("/webhooks")
-    public ResponseEntity<String> handleWebhook(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<String> handleWebhook(@RequestBody WebhookEvent payload) {
         // Aquí puedes procesar el payload
         System.out.println("Notificación recibida: " + payload);
+        webhookEventService.createWebhookEvent(payload);
         return ResponseEntity.ok("Webhook recibido correctamente");
     }
 }
