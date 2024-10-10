@@ -39,9 +39,7 @@ public class DetailsController {
     @PostMapping
     public ResponseEntity<DetailsDto> createDetails(@RequestBody Details details) throws IOException {
 
-        Details newDetails = detailsService.createDetails(details);
-
-        return new ResponseEntity<>(DetailsDto.fromEntity(newDetails), HttpStatus.CREATED);
+        return new ResponseEntity<>(DetailsDto.fromEntity(detailsService.createDetails(details)), HttpStatus.CREATED);
     }
 
     @PutMapping

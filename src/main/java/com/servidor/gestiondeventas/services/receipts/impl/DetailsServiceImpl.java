@@ -55,21 +55,8 @@ public class DetailsServiceImpl implements DetailsService {
 
     @Override
     public Details createDetails(Details details) throws IOException {
-        Details newDetails = new Details();
-        newDetails.setCae(details.getCae());
-        newDetails.setCaeFchVto(details.getCaeFchVto());
-        newDetails.setNumberInvoice(details.getNumberInvoice());
-        newDetails.setPaymentType(details.getPaymentType());
-        newDetails.setDate(new Date());
-        newDetails.setCustomer(details.getCustomer());
-        newDetails.setFiscalStatus(details.getFiscalStatus());
-        newDetails.setSalesPerson(details.getSalesPerson());
-        newDetails.setCompany(details.getCompany());
-        newDetails.setTotal(details.getTotal());
-        newDetails.setCostTotal(details.getCostTotal());
-        newDetails.setIdSatePayment(details.getIdSatePayment());
-        newDetails.setDetailProductList(details.getDetailProductList());
-        return detailsRepository.save(detailProductService.createDetailProduct(newDetails));
+       
+        return detailsRepository.save(detailProductService.createDetailProduct(details));
 
 
 
