@@ -68,7 +68,8 @@ public class DetailsServiceImpl implements DetailsService {
         newDetails.setTotal(details.getTotal());
         newDetails.setCostTotal(details.getCostTotal());
         newDetails.setIdSatePayment(details.getIdSatePayment());
-        return detailsRepository.save(detailProductService.createDetailProduct(details));
+        newDetails.setDetailProductList(details.getDetailProductList());
+        return detailsRepository.save(detailProductService.createDetailProduct(newDetails));
 
 
 
