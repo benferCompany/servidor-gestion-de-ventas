@@ -17,6 +17,7 @@ import com.servidor.gestiondeventas.services.mercadopago.WebhookEventService;
 import com.servidor.gestiondeventas.services.products.ProductService;
 import lombok.AllArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -131,5 +132,9 @@ public class MercadoPagoController {
         System.out.println("Notificación recibida: " + payload);
         webhookEventService.createWebhookEvent(payload);
         return ResponseEntity.ok("Webhook recibido correctamente");
+    }
+    @GetMapping("/webhooks")
+    public ResponseEntity<List<WebhookEvent>> getWebHooks(){
+        return new ResponseEntity<>(webhookEventService.getWebHooks(),HttpStatus.OK);
     }
 }

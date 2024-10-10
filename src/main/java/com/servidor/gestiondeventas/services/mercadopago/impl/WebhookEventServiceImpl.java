@@ -1,5 +1,7 @@
 package com.servidor.gestiondeventas.services.mercadopago.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.servidor.gestiondeventas.entities.mercadopago.WebhookEvent;
@@ -25,6 +27,29 @@ public class WebhookEventServiceImpl implements WebhookEventService {
             return null;
         }
 
+    }
+
+    @Override
+    public List<WebhookEvent> getWebHooks() {
+        return webhookEventRepository.findAll();
+    }
+
+    @Override
+    public WebhookEvent updateWebHook(WebhookEvent webhookEvent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateWebHook'");
+    }
+
+    @Override
+    public boolean deleteWebHookEvent(Long idWebHook) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deleteWebHookEvent'");
+    }
+
+    @Override
+    public WebhookEvent getWebhookById(Long webHookId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getWebhookById'");
     }
 
 }
