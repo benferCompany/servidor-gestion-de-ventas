@@ -1,12 +1,8 @@
 package com.servidor.gestiondeventas.entities.receipts.dto;
 
-import com.servidor.gestiondeventas.entities.products.Product;
-import com.servidor.gestiondeventas.entities.products.dto.ProductDTO;
 import com.servidor.gestiondeventas.entities.receipts.DetailProduct;
-import com.servidor.gestiondeventas.entities.receipts.Details;
 import lombok.Data;
 
-import javax.persistence.*;
 
 @Data
 public class DetailProductsDto {
@@ -20,8 +16,7 @@ public class DetailProductsDto {
     private Double costPrice;
     private Double totalCostPrice;
     private Double totalPrice;
-
-
+   
 
     public static DetailProductsDto fromEntity(DetailProduct detailProducts){
         DetailProductsDto detailProductsDto = new DetailProductsDto();

@@ -1,6 +1,5 @@
 package com.servidor.gestiondeventas.entities.receipts;
 
-import com.servidor.gestiondeventas.entities.expenses.invoice.InvoiceSupplier;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,6 +18,7 @@ public class DetailProduct {
     private Double price;
     private Double totalPrice;
     private Double totalCostPrice;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "details_id")

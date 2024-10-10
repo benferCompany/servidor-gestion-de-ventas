@@ -2,7 +2,6 @@ package com.servidor.gestiondeventas.controllers.receipts;
 
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.entities.receipts.dto.DetailsDto;
-import com.servidor.gestiondeventas.services.receipts.AFIP.FECAE.SolicitarService;
 import com.servidor.gestiondeventas.services.receipts.DetailProductService;
 import com.servidor.gestiondeventas.services.receipts.DetailsService;
 import com.servidor.gestiondeventas.tools.AFIP.generateTA.AfipLoginTicketGenerator;

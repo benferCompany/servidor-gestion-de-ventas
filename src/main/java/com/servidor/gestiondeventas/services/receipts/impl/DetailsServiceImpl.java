@@ -1,9 +1,7 @@
 package com.servidor.gestiondeventas.services.receipts.impl;
 
-import com.servidor.gestiondeventas.entities.receipts.DetailProduct;
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.entities.receipts.dto.DetailsDto;
-import com.servidor.gestiondeventas.repository.expenses.closing.CashClosingRepository;
 import com.servidor.gestiondeventas.repository.receipts.DetailProductsRepository;
 import com.servidor.gestiondeventas.repository.receipts.DetailsRepository;
 import com.servidor.gestiondeventas.services.expenses.closing.CashClosingService;
@@ -20,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -70,6 +67,7 @@ public class DetailsServiceImpl implements DetailsService {
         newDetails.setCompany(details.getCompany());
         newDetails.setTotal(details.getTotal());
         newDetails.setCostTotal(details.getCostTotal());
+        newDetails.setIdSatePayment(details.getIdSatePayment());
         return detailsRepository.save(detailProductService.createDetailProduct(details));
 
 

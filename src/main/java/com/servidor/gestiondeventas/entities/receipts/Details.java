@@ -1,11 +1,8 @@
 package com.servidor.gestiondeventas.entities.receipts;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.servidor.gestiondeventas.entities.balance.Active;
 import com.servidor.gestiondeventas.entities.balance.Movements;
-import com.servidor.gestiondeventas.entities.balance.Passive;
 import com.servidor.gestiondeventas.entities.company.Company;
-import com.servidor.gestiondeventas.entities.expenses.closing.CashClosing;
 import com.servidor.gestiondeventas.entities.persons.Customer;
 import com.servidor.gestiondeventas.entities.persons.SalesPerson;
 import lombok.Data;
@@ -57,6 +54,8 @@ public class Details {
     private Double discount;
     private Double total;
     private Double costTotal;
+
+    private String idSatePayment;
 
 
 }

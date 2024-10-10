@@ -7,7 +7,6 @@ import com.servidor.gestiondeventas.entities.persons.dto.SalesPersonDTO;
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -35,6 +34,8 @@ public class DetailsDto {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date date;
 
+    private String idStatePayment;
+
     static public DetailsDto fromEntity(Details details){
         DetailsDto detailsDto = new DetailsDto();
 
@@ -54,7 +55,7 @@ public class DetailsDto {
         detailsDto.setCae(details.getCae());
         detailsDto.setCaeFchVto(details.getCaeFchVto());
         detailsDto.setNumberInvoice(details.getNumberInvoice());
-
+        detailsDto.setIdStatePayment(details.getIdSatePayment());
 
         // Convertir ZonedDateTime a Date
 

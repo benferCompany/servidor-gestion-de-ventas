@@ -4,19 +4,16 @@ import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.receipts.DetailProduct;
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.repository.products.ProductRepository;
-import com.servidor.gestiondeventas.repository.receipts.DetailProductsRepository;
 import com.servidor.gestiondeventas.services.receipts.DetailProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class DetailProductServiceImpl implements DetailProductService {
-    private final DetailProductsRepository detailProductsRepository;
     private final ProductRepository productRepository;
 
     @Override
