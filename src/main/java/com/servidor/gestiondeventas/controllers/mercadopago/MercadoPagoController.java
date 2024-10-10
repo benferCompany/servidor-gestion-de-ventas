@@ -86,7 +86,6 @@ public class MercadoPagoController {
                 .notificationUrl("https://benfer.shop/api/mercadoPago/webhooks")
                 .items(items).autoReturn("approved").build();
         Preference clientPreference = client.create(preferenceRequest, requestOptions);
-        detailsService.createDetails(details);
         return clientPreference;
 
     }
