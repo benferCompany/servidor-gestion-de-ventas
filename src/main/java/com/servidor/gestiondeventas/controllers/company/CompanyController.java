@@ -2,7 +2,6 @@ package com.servidor.gestiondeventas.controllers.company;
 
 import com.servidor.gestiondeventas.entities.company.Company;
 import com.servidor.gestiondeventas.entities.company.dto.CompanyDTO;
-import com.servidor.gestiondeventas.entities.persons.dto.SupplierDTO;
 import com.servidor.gestiondeventas.services.company.CompanyService;
 import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -65,8 +63,10 @@ public class CompanyController {
             @RequestParam(defaultValue = "10") int size
     )
     {
+        @SuppressWarnings("rawtypes")
         ItemSearchResult itemSearchResult = companyService.getCompanyByName(company.getName(), page, size);
 
+        @SuppressWarnings("unchecked")
         List<CompanyDTO> companyDTOList = itemSearchResult.getResultList();
         Long totalElements = itemSearchResult.getTotalElements();
 

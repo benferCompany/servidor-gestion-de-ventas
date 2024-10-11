@@ -14,7 +14,6 @@ import com.servidor.gestiondeventas.entities.receipts.DetailProduct;
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.services.mercadopago.WebhookEventService;
 import com.servidor.gestiondeventas.services.products.ProductService;
-import com.servidor.gestiondeventas.services.receipts.DetailsService;
 
 import lombok.AllArgsConstructor;
 
@@ -33,7 +32,6 @@ import java.util.*;
 public class MercadoPagoController {
     private final ProductService productService;
     private final WebhookEventService webhookEventService;
-    private final DetailsService detailsService;
 
     @PostMapping
     public Preference getApi(@RequestBody Details details) throws MPException, MPApiException, IOException {
