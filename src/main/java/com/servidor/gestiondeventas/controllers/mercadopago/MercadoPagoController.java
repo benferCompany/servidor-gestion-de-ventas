@@ -32,7 +32,7 @@ public class MercadoPagoController {
     @GetMapping("getPayments/{email}")
     public ResponseEntity<List<Payment>> getPaymentsByEmail(@PathVariable String email)
             throws MPException, MPApiException {
-        List<Payment> response = mercadoPagoService.getPayment(webhookEventService.getWebHooks());
+        List<Payment> response = mercadoPagoService.getPayment(webhookEventService.getWebhooksByEmail(email));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

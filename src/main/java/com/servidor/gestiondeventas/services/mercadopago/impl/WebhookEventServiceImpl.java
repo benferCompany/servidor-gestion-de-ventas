@@ -52,4 +52,9 @@ public class WebhookEventServiceImpl implements WebhookEventService {
         throw new UnsupportedOperationException("Unimplemented method 'getWebhookById'");
     }
 
+    @Override
+    public List<WebhookEvent> getWebhooksByEmail(String email){
+        return webhookEventRepository.findByEmail(email);
+    }
+
 }
