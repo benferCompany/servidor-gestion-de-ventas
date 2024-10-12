@@ -14,6 +14,8 @@ import lombok.Data;
 public class PaymentOrder {
     @Id
     private String id;
+    private String status;
+    private String statusDetail;
     @OneToMany(mappedBy = "paymentOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)    
     private List<Items> items;
 }
