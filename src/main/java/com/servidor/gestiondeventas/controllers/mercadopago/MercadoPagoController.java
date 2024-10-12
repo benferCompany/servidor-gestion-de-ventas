@@ -29,6 +29,13 @@ public class MercadoPagoController {
     private final MercadoPagoService mercadoPagoService;
     private final WebhookEventService webhookEventService;
 
+    @GetMapping("getPayments/{email}")
+    public ResponseEntity<List<Payment>> getPaymentsByEmail(@PathVariable String email)
+            throws MPException, MPApiException {
+        List<Payment> response = mercadoPagoService.getPayment(webhookEventService.getWebHooks());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping
     public Preference getApi(@RequestBody Details details) throws MPException, MPApiException, IOException {
         return mercadoPagoService.createPayment(details);
