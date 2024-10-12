@@ -9,5 +9,5 @@ import lombok.Data;
 @Data
 public class WebhooksData {
     @Id
-    private String id; // Cambiado a String para coincidir con el JSON
+    private Long id; // Cambiado a String para coincidir con el JSON
 }
