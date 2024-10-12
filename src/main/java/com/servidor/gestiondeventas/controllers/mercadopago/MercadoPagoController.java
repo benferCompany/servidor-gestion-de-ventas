@@ -10,6 +10,7 @@ import com.mercadopago.resources.preference.Preference;
 import com.servidor.gestiondeventas.entities.mercadopago.WebhookEvent;
 import com.servidor.gestiondeventas.entities.mercadopago.payments.Items;
 import com.servidor.gestiondeventas.entities.mercadopago.payments.PaymentOrder;
+import com.servidor.gestiondeventas.entities.mercadopago.payments.dto.PaymentOrderDTO;
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.services.mercadopago.MercadoPagoService;
 import com.servidor.gestiondeventas.services.mercadopago.WebhookEventService;
@@ -34,7 +35,7 @@ public class MercadoPagoController {
     private final WebhookEventService webhookEventService;
 
     @GetMapping("getPayments/{email}")
-    public ResponseEntity<List<PaymentOrder>> getPaymentsByEmail(@PathVariable String email)
+    public ResponseEntity<List<PaymentOrderDTO>> getPaymentsByEmail(@PathVariable String email)
             throws MPException, MPApiException {
         List<Payment> response = mercadoPagoService.getPayment(webhookEventService.getWebhooksByEmail(email));
         List<PaymentOrder> paymentOrders = new ArrayList<>();
@@ -60,7 +61,7 @@ public class MercadoPagoController {
            return paymentOrder;
         }).collect(Collectors.toList());
 
-        return new ResponseEntity<>(paymentOrders, HttpStatus.OK);
+        return new ResponseEntity<>(paymentOrders.stream().map(PaymentOrderDTO::fromEntity).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @PostMapping
