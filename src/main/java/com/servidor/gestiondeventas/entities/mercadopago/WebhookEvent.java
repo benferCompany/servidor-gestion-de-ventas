@@ -36,4 +36,6 @@ public class WebhookEvent {
 
     @Column(name = "user_id")
     private String user_id;
+    @Column(name="email")
+    private String email;
 }

@@ -81,7 +81,7 @@ public class MercadoPagoController {
                                 .failure("https://benfer.shop/carrito")
                                 .pending("https://benfer.shop")
                                 .build())
-                .notificationUrl("https://benfer.shop/api/mercadoPago/webhooks")
+                .notificationUrl("https://benfer.shop/api/mercadoPago/webhooks?email="+details.getCustomer().getEmail())
                 .items(items).autoReturn("approved").build();
         Preference clientPreference = client.create(preferenceRequest, requestOptions);
         return clientPreference;
@@ -120,8 +120,9 @@ public class MercadoPagoController {
     }
 
     @PostMapping("/webhooks")
-    public ResponseEntity<String> handleWebhook(@RequestBody WebhookEvent payload) {
+    public ResponseEntity<String> handleWebhook(@RequestBody WebhookEvent payload, @RequestParam String email) {
         // Aquí puedes procesar el payload
+        payload.setEmail(email);
         System.out.println("Notificación recibida: " + payload);
         webhookEventService.createWebhookEvent(payload);
         return ResponseEntity.ok("Webhook recibido correctamente");
