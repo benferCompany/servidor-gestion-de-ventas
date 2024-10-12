@@ -2,7 +2,7 @@ package com.servidor.gestiondeventas.entities.mercadopago;
 
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import com.servidor.gestiondeventas.entities.mercadopago.tools.WebhooksDataConverter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,8 +21,8 @@ public class WebhookEvent {
     @Column(name = "api_version")
     private String api_version;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "data_id")  // Nombre de la columna que actuará como llave foránea
+    @Column(name = "data")
+    @Convert(converter = WebhooksDataConverter.class)
     private WebhooksData data;
 
     @Column(name = "date_created")
