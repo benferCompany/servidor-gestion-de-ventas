@@ -2,6 +2,9 @@ package com.servidor.gestiondeventas.services.mercadopago.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.servidor.gestiondeventas.entities.mercadopago.WebhookEvent;
@@ -53,8 +56,9 @@ public class WebhookEventServiceImpl implements WebhookEventService {
     }
 
     @Override
-    public List<WebhookEvent> getWebhooksByEmail(String email){
-        return webhookEventRepository.findByEmail(email);
+    public Page<WebhookEvent> getWebhooksByEmail(String email, int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return webhookEventRepository.findByEmail(email, pageable);
     }
 
 }

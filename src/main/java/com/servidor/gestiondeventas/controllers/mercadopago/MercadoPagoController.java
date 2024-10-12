@@ -10,6 +10,7 @@ import com.servidor.gestiondeventas.entities.mercadopago.WebhookEvent;
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.services.mercadopago.MercadoPagoService;
 import com.servidor.gestiondeventas.services.mercadopago.WebhookEventService;
+import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
 
 import lombok.AllArgsConstructor;
 
@@ -29,11 +30,15 @@ public class MercadoPagoController {
     private final MercadoPagoService mercadoPagoService;
     private final WebhookEventService webhookEventService;
 
+    @SuppressWarnings("rawtypes")
     @GetMapping("getPayments/{email}")
-    public ResponseEntity<List<Payment>> getPaymentsByEmail(@PathVariable String email)
+    public ResponseEntity<ItemSearchResult> getPaymentsByEmail(@PathVariable String email,
+            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size)
             throws MPException, MPApiException {
-        List<Payment> response = mercadoPagoService.getPayment(webhookEventService.getWebhooksByEmail(email));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        List<WebhookEvent> webhookEvents = webhookEventService.getWebhooksByEmail(email, page, size).getContent();
+        List<Payment> response = mercadoPagoService.getPayment(webhookEvents);
+        ItemSearchResult itemSearchResult = new ItemSearchResult<>(response, (long) webhookEvents.size());
+        return new ResponseEntity<>(itemSearchResult, HttpStatus.OK);
     }
 
     @PostMapping
