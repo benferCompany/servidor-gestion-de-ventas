@@ -42,7 +42,6 @@ import lombok.AllArgsConstructor;
 public class MercadoPagoServiceImpl implements MercadoPagoService {
     private final ProductService productService;
     private final WebhookEventService webhookEventService;
-    private final MercadoPagoService mercadoPagoService;
     @Override
     public Preference createPayment(Details details) throws MPException, MPApiException {
 
@@ -134,7 +133,7 @@ public Page<Payment> getPaymentsByEmail(String email, int page, int size) throws
     int start = (int) pageable.getOffset();
     int end = Math.min((start + pageable.getPageSize()), webhooks.size());
     
-    List<Payment> pagedWebhooks = mercadoPagoService.getPayment(webhooks.subList(start, end));
+    List<Payment> pagedWebhooks = getPayment(webhooks.subList(start, end));
     
     return new PageImpl<>(pagedWebhooks, pageable, webhooks.size());
 }
