@@ -8,6 +8,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mercadopago.client.payment.PaymentClient;
@@ -28,6 +32,7 @@ import com.servidor.gestiondeventas.entities.products.Product;
 import com.servidor.gestiondeventas.entities.receipts.DetailProduct;
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.services.mercadopago.MercadoPagoService;
+import com.servidor.gestiondeventas.services.mercadopago.WebhookEventService;
 import com.servidor.gestiondeventas.services.products.ProductService;
 
 import lombok.AllArgsConstructor;
@@ -36,7 +41,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MercadoPagoServiceImpl implements MercadoPagoService {
     private final ProductService productService;
-
+    private final WebhookEventService webhookEventService;
+    private final MercadoPagoService mercadoPagoService;
     @Override
     public Preference createPayment(Details details) throws MPException, MPApiException {
 
@@ -118,5 +124,20 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
 
         return payments;
     }
+
+@Override
+public Page<Payment> getPaymentsByEmail(String email, int page, int size) throws MPException, MPApiException {
+    List<WebhookEvent> webhooks = webhookEventService.getWebhooksByEmail(email);
+    
+    // Convierte la lista en una sublista para aplicar paginación
+    Pageable pageable = PageRequest.of(page, size);
+    int start = (int) pageable.getOffset();
+    int end = Math.min((start + pageable.getPageSize()), webhooks.size());
+    
+    List<Payment> pagedWebhooks = mercadoPagoService.getPayment(webhooks.subList(start, end));
+    
+    return new PageImpl<>(pagedWebhooks, pageable, webhooks.size());
+}
+
 
 }

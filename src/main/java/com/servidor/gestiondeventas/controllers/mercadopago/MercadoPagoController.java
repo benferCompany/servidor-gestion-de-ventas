@@ -10,10 +10,10 @@ import com.servidor.gestiondeventas.entities.mercadopago.WebhookEvent;
 import com.servidor.gestiondeventas.entities.receipts.Details;
 import com.servidor.gestiondeventas.services.mercadopago.MercadoPagoService;
 import com.servidor.gestiondeventas.services.mercadopago.WebhookEventService;
-import com.servidor.gestiondeventas.services.products.tools.ItemSearchResult;
 
 import lombok.AllArgsConstructor;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,16 +30,15 @@ public class MercadoPagoController {
     private final MercadoPagoService mercadoPagoService;
     private final WebhookEventService webhookEventService;
 
-    @SuppressWarnings("rawtypes")
-    @GetMapping("getPayments/{email}")
-    public ResponseEntity<ItemSearchResult> getPaymentsByEmail(@PathVariable String email,
-            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size)
-            throws MPException, MPApiException {
-        List<WebhookEvent> webhookEvents = webhookEventService.getWebhooksByEmail(email, page, size).getContent();
-        List<Payment> response = mercadoPagoService.getPayment(webhookEvents);
-        ItemSearchResult itemSearchResult = new ItemSearchResult<>(response, (long) webhookEvents.size());
-        return new ResponseEntity<>(itemSearchResult, HttpStatus.OK);
-    }
+ @GetMapping("getPayments/{email}")
+public ResponseEntity<Page<Payment>> getPaymentsByEmail(
+        @PathVariable String email,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size) throws MPException, MPApiException {
+    
+    Page<Payment> response = mercadoPagoService.getPaymentsByEmail(email, page, size);
+    return new ResponseEntity<>(response, HttpStatus.OK);
+}
 
     @PostMapping
     public Preference getApi(@RequestBody Details details) throws MPException, MPApiException, IOException {
