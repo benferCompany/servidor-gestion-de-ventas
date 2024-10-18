@@ -1,6 +1,7 @@
 package com.servidor.gestiondeventas.services.mercadopago.impl;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +74,10 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
 
         }
 
+
+        //Establecer fecha de vencimiento de pagos en efectivo
+        OffsetDateTime expirationDate = OffsetDateTime.now().plusMinutes(1);
+
         PreferenceFreeMethodRequest freeMethod = PreferenceFreeMethodRequest.builder()
                 .id(1L).build();
         List<PreferenceFreeMethodRequest> freeMethodList = new ArrayList<>();
@@ -87,13 +92,14 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .backUrls(
                         PreferenceBackUrlsRequest.builder()
-                                .success("https://benfer.shop")
-                                .failure("https://benfer.shop/carrito")
-                                .pending("https://benfer.shop")
+                                .success("https://benfer.shop/miscompras")
+                                .failure("https://benfer.shop")
+                                .pending("https://benfer.shop/miscompras")
                                 .build())
                 .notificationUrl(
                         "https://benfer.shop/api/mercadoPago/webhooks?email=" + details.getCustomer().getEmail())
-                .items(items).autoReturn("approved").build();
+                .items(items).autoReturn("approved")
+                .dateOfExpiration(expirationDate).build();
         Preference clientPreference = client.create(preferenceRequest, requestOptions);
         return clientPreference;
 
