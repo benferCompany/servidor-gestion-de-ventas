@@ -99,7 +99,7 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                 .notificationUrl(
                         "https://benfer.shop/api/mercadoPago/webhooks?email=" + details.getCustomer().getEmail())
                 .items(items).autoReturn("approved")
-                .dateOfExpiration(expirationDate).build();
+                .expirationDateFrom(expirationDate).expirationDateTo(expirationDate).build();
         Preference clientPreference = client.create(preferenceRequest, requestOptions);
         return clientPreference;
 
